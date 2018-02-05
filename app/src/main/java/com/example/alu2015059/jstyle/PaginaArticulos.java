@@ -11,6 +11,6 @@ public class PaginaArticulos extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pagina_articulos);
+        setContentView(R.layout.anadir_articulos);
     }
 }

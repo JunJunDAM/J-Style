@@ -17,7 +17,7 @@ public class MarcadorMapa extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         LatLng ubicacion = new LatLng(41.385524, 2.162439);
         googleMap.addMarker(new MarkerOptions().position(ubicacion)
-                .title("Marker in Sydney"));
+                .title("J-S Barcelona"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacion));
     }
 }

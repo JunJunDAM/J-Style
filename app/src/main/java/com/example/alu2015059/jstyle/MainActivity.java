@@ -20,8 +20,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
-        mapFragment.getMapAsync((OnMapReadyCallback) this);
+        //mapView.findViewById(R.id.mapView);
+        //mapView.getMapAsync((OnMapReadyCallback) this);
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
+        //mapFragment.getMapAsync((OnMapReadyCallback) this);
 
         Button pagPrincipal_btn = findViewById(R.id.iniciarapp_btn);
         pagPrincipal_btn.setOnClickListener(new View.OnClickListener() {
