@@ -14,14 +14,16 @@ public class Database extends SQLiteOpenHelper{
 
 
 
-    public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public Database(Context context) {
+        super(context, PrendasDB.DATABASE_NAME, null, PrendasDB.DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqldb) {
-        sqldb.execSQL(sentencia);
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(PrendasDB.CREATE_PRENDASDB);
     }
+
+    //https://expocodetech.com/guardar-datos-con-sqlite-en-android/
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
