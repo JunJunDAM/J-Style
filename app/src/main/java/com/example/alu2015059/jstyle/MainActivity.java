@@ -25,14 +25,16 @@ public class MainActivity extends AppCompatActivity {
         //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapView);
         //mapFragment.getMapAsync((OnMapReadyCallback) this);
 
+
         Button pagPrincipal_btn = findViewById(R.id.iniciarapp_btn);
         pagPrincipal_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),PaginaArticulos.class);
-                startActivityForResult(intent,0);
+                setContentView(R.layout.pagina_articulos);
             }
         });
     }
+
+
 
 }

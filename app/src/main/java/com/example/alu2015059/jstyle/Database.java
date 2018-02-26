@@ -12,6 +12,8 @@ public class Database extends SQLiteOpenHelper{
 
     String sentencia = "CREATE TABLE Prendas (<imagen> , descripcion TEXT, codigo TEXT, cantidad INTEGER, sexo TEXT, precio )";
 
+
+
     public Database(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
