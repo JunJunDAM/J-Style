@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity;
  * Created by alu2015059 on 23/01/2018.
  */
 
-public class PaginaArticulos extends AppCompatActivity{
+public class PaginaArticulos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.anadir_articulos);
+        setContentView(R.layout.pagina_articulos);
     }
 }
