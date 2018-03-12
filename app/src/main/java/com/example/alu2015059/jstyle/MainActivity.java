@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         pagPrincipal_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setContentView(R.layout.pagina_articulos);
+                setContentView(R.layout.anadir_articulos);
             }
         });
     }

@@ -1,14 +1,14 @@
 package com.example.alu2015059.jstyle;
 
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * Created by alu2015059 on 05/02/2018.
@@ -17,55 +17,51 @@ import android.widget.ImageView;
 public class AnadirArticulo extends AppCompatActivity{
 
     //private ImageView imagen = findViewById(R.id.foto);
-    private EditText descripcion = findViewById(R.id.et_descripcion);
-    private EditText codigo = findViewById(R.id.et_codigo);
-    private EditText cantidad = findViewById(R.id.et_cantidad);
-    private EditText sexo = findViewById(R.id.et_sexo);
-    private EditText precio = findViewById(R.id.et_precio);
+    private EditText descripcion;
+    private EditText codigo;
+    private EditText cantidad;
+    private EditText sexo;
+    private EditText precio;
+
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.anadir_articulos);
 
-        //Image imatge = imagen.;
-        String descripcio = String.valueOf(descripcion.getText());
-        String codi = String.valueOf(codigo.getText());
-        Integer cantitat = Integer.parseInt(String.valueOf(cantidad.getText()));
-        String sexe = String.valueOf(sexo.getText());
-        Double preu = Double.parseDouble(String.valueOf(precio.getText()));
+        descripcion = findViewById(R.id.et_descripcion);
+        codigo = findViewById(R.id.et_codigo);
+        cantidad = findViewById(R.id.et_cantidad);
+        sexo = findViewById(R.id.et_sexo);
+        precio = findViewById(R.id.et_precio);
+    }
 
-        Database db = new Database(this, "Prendas", null, 1);
-        SQLiteDatabase sqldb = db.getWritableDatabase();
+    public void guardar(View view){
+        ArticulosDBHelper articulosDBHelper = new ArticulosDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = articulosDBHelper.getWritableDatabase();
 
-        if(db != null){
+        String description = descripcion.getText().toString();
+        String code = codigo.getText().toString();
+        int cantity = Integer.valueOf(String.valueOf(cantidad.getText()));
+        String sex = sexo .getText().toString();
+        double price = Double.valueOf(String.valueOf(precio.getText()));
 
-            db.close();
-        }
+        ContentValues values = new ContentValues();
+        values.put(ArticulosDB.ARTICULOS.DESCRIPCION, description);
+        values.put(ArticulosDB.ARTICULOS.CODIGO, code);
+        values.put(ArticulosDB.ARTICULOS.CANTIDAD, cantity);
+        values.put(ArticulosDB.ARTICULOS.SEXO, sex);
+        values.put(ArticulosDB.ARTICULOS.PRECIO, price);
 
-        /*
-        //Abrimos la base de datos 'DBUsuarios' en modo escritura
-        UsuariosSQLiteHelper usdbh =
-                new UsuariosSQLiteHelper(this, "DBUsuarios", null, 1);
+        sqLiteDatabase.insert(ArticulosDB.ARTICULOS.TABLE_NAME, null, values);
+        sqLiteDatabase.close();
+    }
 
-        SQLiteDatabase db = usdbh.getWritableDatabase();
-
-        //Si hemos abierto correctamente la base de datos
-        if(db != null)
-        {
-            //Insertamos 5 usuarios de ejemplo
-            for(int i=1; i<=5; i++)
-            {
-                //Generamos los datos
-                int codigo = i;
-                String nombre = "Usuario" + i;
-
-                //Insertamos los datos en la tabla Usuarios
-                db.execSQL("INSERT INTO Usuarios (codigo, nombre) " +
-                        "VALUES (" + codigo + ", '" + nombre +"')");
-            }
-
-            //Cerramos la base de datos
-            db.close();
-            */
+    public void cancelar(View view){
+        descripcion.setText("");
+        codigo.setText("");
+        cantidad.setText("");
+        sexo.setText("");
+        precio.setText("");
+        setContentView(R.layout.activity_main);
     }
 }

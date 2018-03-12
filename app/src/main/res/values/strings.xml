@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">JStyle</string>
+    <string name="lista_vacia">Sin Datos</string>
 </resources>
