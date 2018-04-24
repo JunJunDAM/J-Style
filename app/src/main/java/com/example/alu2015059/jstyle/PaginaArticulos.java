@@ -47,7 +47,6 @@ public class PaginaArticulos extends AppCompatActivity{
             }
         });
 
-
         //Boton que llevara a la pagina para añadir un nuevo articulo
         Button btn_anadirArticulo = findViewById(R.id.btn_anadir);
         btn_anadirArticulo.setOnClickListener(new View.OnClickListener() {

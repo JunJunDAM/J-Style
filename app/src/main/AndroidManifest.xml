@@ -18,6 +18,8 @@
         </activity>
         <activity android:name=".AnadirArticulo" />
         <activity android:name=".PaginaArticulos" />
+        <activity android:name=".Login" />
+        <activity android:name=".Registro" />
     </application>
 
 </manifest>

@@ -1,16 +1,15 @@
 package com.example.alu2015059.jstyle;
 
-import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.SQLite.SQLiteDBHelper;
 
 /**
  * Created by alu2015059 on 05/02/2018.
@@ -44,8 +43,8 @@ public class AnadirArticulo extends AppCompatActivity{
                 Log.d("prova", "Aqui");
 
                 //Abrimos base de datos con permisos de escritura
-                ArticulosDBHelper articulosDBHelper = new ArticulosDBHelper(AnadirArticulo.this);
-                SQLiteDatabase sqLiteDatabase = articulosDBHelper.getWritableDatabase();
+                SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(AnadirArticulo.this);
+                SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
                 //Cojo los valores de los articulos
                 String description = descripcion.getText().toString();
@@ -58,8 +57,8 @@ public class AnadirArticulo extends AppCompatActivity{
 
                 //Creo el articulo
                 Articulo articulo = new Articulo(description, code, cantity, sex, price);
-                //Cojo el metodo creado en articulosDBHelper para guardar el articulo
-                articulosDBHelper.insertNode(articulo);
+                //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
+                SQLiteDBHelper.insertNode(articulo);
 
                 Log.d("prova", "Articulo Guardado");
 
@@ -97,8 +96,8 @@ public class AnadirArticulo extends AppCompatActivity{
     //Metodo que guardara los articulos
     public void guardar(View view){
         //Abrimos base de datos con permisos de escritura
-        ArticulosDBHelper articulosDBHelper = new ArticulosDBHelper(this);
-        SQLiteDatabase sqLiteDatabase = articulosDBHelper.getWritableDatabase();
+        SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
         //Cojo los valores de los articulos
         String description = descripcion.getText().toString();
@@ -111,8 +110,8 @@ public class AnadirArticulo extends AppCompatActivity{
 
         //Creo el articulo
         Articulo articulo = new Articulo(description, code, cantity, sex, price);
-        //Cojo el metodo creado en articulosDBHelper para guardar el articulo
-        articulosDBHelper.insertNode(articulo);
+        //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
+        SQLiteDBHelper.insertNode(articulo);
 
         System.out.println("Articulo añadido");
 
