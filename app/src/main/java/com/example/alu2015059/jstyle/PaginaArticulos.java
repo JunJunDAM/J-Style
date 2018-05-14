@@ -1,5 +1,6 @@
 package com.example.alu2015059.jstyle;
 
+import android.app.ListActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,7 +17,7 @@ import com.example.alu2015059.jstyle.SQLite.SQLiteDBHelper;
  * Created by alu2015059 on 23/01/2018.
  */
 
-public class PaginaArticulos extends AppCompatActivity{
+public class PaginaArticulos extends ListActivity{
     private ListView listView;
     private Button btn_buscar;
     private EditText code;
@@ -35,27 +36,25 @@ public class PaginaArticulos extends AppCompatActivity{
             }
         });
 
-        Button btn_buscar = findViewById(R.id.btn_buscador);
+        btn_buscar = findViewById(R.id.btn_buscador);
         btn_buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 code = findViewById(R.id.et_buscador);
                 String codigo = String.valueOf(code);
 
-                if(!codigo.isEmpty()){
+                if(codigo.equalsIgnoreCase("")){
+                    Toast.makeText(PaginaArticulos.this, "Buscador vacio",Toast.LENGTH_SHORT).show();
+                }else{
                     SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
                     SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
                     String query = "SELECT * FORM ARTICULOS WHERE codigo = '" + codigo + "'";
 
-                    if(query = ""){
 
-                    }
 
                     SQLiteDBHelper.getArticuloByCodigo(codigo);
                     sqLiteDatabase.close();
-                }else{
-                    Toast.makeText(PaginaArticulos.this, "Buscador vacio",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -70,4 +69,10 @@ public class PaginaArticulos extends AppCompatActivity{
             }
         });
     }
+
+    public boolean onCreateOptionsMenu(View view){
+        getMenuInflater().inflate(R.id.lista_articulos, view);
+        return true;
+    }
+
 }
