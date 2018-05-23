@@ -14,6 +14,8 @@ import android.widget.EditText;
  * Created by alu2015059 on 23/01/2018.
  */
 
+//link para hacer fragments : http://www.hermosaprogramacion.com/2014/10/android-listas-adaptadores/
+
 public class PaginaArticulos extends AppCompatActivity{
     private SwipeRefreshLayout srl_Articulos;
     private RecyclerView rv_Articulos;
