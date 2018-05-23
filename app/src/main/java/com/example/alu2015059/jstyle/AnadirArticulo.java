@@ -40,8 +40,6 @@ public class AnadirArticulo extends AppCompatActivity{
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("prova", "Aqui");
-
                 //Abrimos base de datos con permisos de escritura
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(AnadirArticulo.this);
                 SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
@@ -59,8 +57,6 @@ public class AnadirArticulo extends AppCompatActivity{
                 Articulo articulo = new Articulo(description, code, cantity, sex, price);
                 //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
                 SQLiteDBHelper.insertNode(articulo);
-
-                Log.d("prova", "Articulo Guardado");
 
                 //Cierro la base de datos
                 sqLiteDatabase.close();
