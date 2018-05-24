@@ -16,10 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AnadirArticulo" />
-        <activity android:name=".PaginaArticulos" />
-        <activity android:name=".Login" />
-        <activity android:name=".Registro" />
+        <activity android:name=".Service.AnadirArticulo.AnadirArticulo" />
+        <activity android:name=".Service.MostrarArticulos.PaginaArticulos" />
+        <activity android:name=".Service.Login_VersionBeta.Login" />
+        <activity android:name=".Service.Login_VersionBeta.Registro" />
+        <activity android:name=".Service.Mapa.MarcadorMapa"/>
+        <!--
+        <activity android:name=".Service.MostrarArticulos.ArticulosAdapter"/>
+        -->
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.alu2015059.jstyle.AnadirArticulo">
+    tools:context="com.example.alu2015059.jstyle.Service.AnadirArticulo.AnadirArticulo">
 
     <EditText
         android:id="@+id/pga_et_buscador"

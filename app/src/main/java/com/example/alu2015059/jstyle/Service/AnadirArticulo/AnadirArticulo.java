@@ -1,15 +1,15 @@
-package com.example.alu2015059.jstyle;
+package com.example.alu2015059.jstyle.Service.AnadirArticulo;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
-import com.example.alu2015059.jstyle.SQLite.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
 /**
  * Created by alu2015059 on 05/02/2018.
