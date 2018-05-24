@@ -1,0 +1,20 @@
+<FrameLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="8dp"
+    tools:context=".Service.MostrarArticulos.ArticulosFragment">
+
+    <ListView
+        android:id="@+id/articulosList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:divider="@null">
+    </ListView>
+
+</FrameLayout>
+
