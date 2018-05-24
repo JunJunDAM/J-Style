@@ -56,7 +56,7 @@ public class AnadirArticulo extends AppCompatActivity{
                 //Creo el articulo
                 Articulo articulo = new Articulo(description, code, cantity, sex, price);
                 //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
-                SQLiteDBHelper.insertNode(articulo);
+                SQLiteDBHelper.insertArticulo(articulo);
 
                 //Cierro la base de datos
                 sqLiteDatabase.close();
@@ -107,7 +107,7 @@ public class AnadirArticulo extends AppCompatActivity{
         //Creo el articulo
         Articulo articulo = new Articulo(description, code, cantity, sex, price);
         //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
-        SQLiteDBHelper.insertNode(articulo);
+        SQLiteDBHelper.insertArticulo(articulo);
 
         System.out.println("Articulo añadido");
 
