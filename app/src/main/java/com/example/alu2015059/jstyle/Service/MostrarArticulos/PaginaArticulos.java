@@ -17,6 +17,8 @@ import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 import com.example.alu2015059.jstyle.Service.AnadirArticulo.AnadirArticulo;
 
+import java.util.List;
+
 /**
  * Created by alu2015059 on 23/01/2018.
  */
@@ -81,26 +83,26 @@ public class PaginaArticulos extends AppCompatActivity{
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
         SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
-        update(SQLiteDBHelper.getArticuloByCodigo("1"));
+        update(SQLiteDBHelper.getAllArticulos());
 
         sqLiteDatabase.close();
     }
 
-    /*public void update(List<Articulo> listaArticulos){
+    public void update(List<Articulo> listaArticulos){
         srl_Articulos.setRefreshing(false);
 
         ArticulosAdapter adapter = new ArticulosAdapter(listaArticulos);
         rv_Articulos.setLayoutManager(new LinearLayoutManager(PaginaArticulos.this));
         rv_Articulos.setItemAnimator(new DefaultItemAnimator());
         rv_Articulos.setAdapter(adapter);
-    }*/
+    }
 
-    public void update(Articulo articulo){
+    /*public void update(Articulo articulo){
         srl_Articulos.setRefreshing(false);
 
         ArticulosAdapter adapter = new ArticulosAdapter(articulo);
         rv_Articulos.setLayoutManager(new LinearLayoutManager(PaginaArticulos.this));
         rv_Articulos.setItemAnimator(new DefaultItemAnimator());
         rv_Articulos.setAdapter(adapter);
-    }
+    }*/
 }

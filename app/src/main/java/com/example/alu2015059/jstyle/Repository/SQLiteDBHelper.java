@@ -27,26 +27,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Creamos las tablas en la base de datos
         sqLiteDatabase.execSQL(ArticulosDB.ARTICULOS_CREATE_TABLE);
         sqLiteDatabase.execSQL(LoginDB.USERS_CREATE_TABLE);
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        //Creo un usuario de prueba
-        ContentValues user = new ContentValues();
-        user.put(LoginDB.USERS.USERNAME, "admin");
-        user.put(LoginDB.USERS.PASSWORD, "admin");
-        db.insert(LoginDB.USERS.TABLE_NAME, null, user);
-
-        //Creo un articulo de pueba
-        ContentValues articulo = new ContentValues();
-        articulo.put(ArticulosDB.ARTICULOS.DESCRIPCION, "Camiseta");
-        articulo.put(ArticulosDB.ARTICULOS.CODIGO, 1);
-        articulo.put(ArticulosDB.ARTICULOS.CANTIDAD, 20);
-        articulo.put(ArticulosDB.ARTICULOS.SEXO, "Hombre");
-        articulo.put(ArticulosDB.ARTICULOS.PRECIO, 12);
-
-        db.insert(ArticulosDB.ARTICULOS.TABLE_NAME, null, articulo);
-
-        db.close();
     }
 
     @Override
@@ -130,6 +110,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
                 null, //Clausula Having
                 null, //Clausula OrderBy
                 null); //Limite de registros
+
         //Sacamos el resultado obtenido por el codigo proporcionado
         if(cursor != null){
             cursor.moveToFirst();
@@ -152,7 +133,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Creamos una Array para llenarlo con los articulos que tengamos en la BD
         List articulos = new ArrayList();
         //Metemos en un String la query que queremos ejecutar
-        String query = "SELECT * FROM " + ArticulosDB.ARTICULOS.TABLE_NAME;
+        String query = "SELECT * FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "'";
         //Obtenemos permisos de escritura y ejecutamos la query
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

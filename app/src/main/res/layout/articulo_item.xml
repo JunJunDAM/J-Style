@@ -22,44 +22,106 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:textAlignment="textStart"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ai_ArticuloImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/ai_ArticuloCant"
-        android:layout_width="100dp"
+        android:layout_width="40dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/ai_ArticuloImage"
-        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName" />
+        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName"
+        app:layout_constraintVertical_bias="0.05" />
 
     <Button
         android:id="@+id/ai_btn_AnadirCarrito"
-        android:layout_width="wrap_content"
+        android:layout_width="81dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="Button"
+        android:text="Añadir"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName" />
 
     <TextView
         android:id="@+id/ai_ArticuloPrice"
-        android:layout_width="100dp"
+        android:layout_width="40dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="4dp"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/ai_btn_AnadirCarrito"
+        android:text="Uds."
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ai_ArticuloPrice"
+        app:layout_constraintEnd_toStartOf="@+id/ai_ArticuloPrice"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintStart_toEndOf="@+id/ai_ArticuloCant"
-        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName" />
+        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="36dp"
+        android:text="€"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/ai_btn_AnadirCarrito"
+        app:layout_constraintEnd_toStartOf="@+id/ai_btn_AnadirCarrito"
+        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/ai_ArticuloCode"
+        android:layout_width="225dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloImage" />
+
+    <TextView
+        android:id="@+id/code"
+        android:layout_width="135dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Codigo : "
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ai_ArticuloCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ai_ArticuloImage" />
 </android.support.constraint.ConstraintLayout>

@@ -20,23 +20,21 @@ import java.util.List;
 
 public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.ViewHolder>{
 
-    private Articulo articulo;
-
     List<Articulo> listaArticulos = new ArrayList<>();
 
-    /*public ArticulosAdapter(List<Articulo> listaArticulos){
+    public ArticulosAdapter(List<Articulo> listaArticulos){
         super();
         this.listaArticulos = listaArticulos;
-    }*/
+    }
 
-    public ArticulosAdapter(Articulo articulo){
+    /*public ArticulosAdapter(Articulo articulo){
         super();
         this.articulo = articulo;
-    }
+    }*/
 
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView articulo_Image;
-        TextView articulo_name, articulo_price, articulo_cant;
+        TextView articulo_name, articulo_price, articulo_cant, articulo_code;
         Button btn_anadirCesta;
 
         public ViewHolder(View itemView){
@@ -45,6 +43,8 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             articulo_name = itemView.findViewById(R.id.ai_ArticuloName);
             articulo_cant = itemView.findViewById(R.id.ai_ArticuloCant);
             articulo_price = itemView.findViewById(R.id.ai_ArticuloPrice);
+            btn_anadirCesta = itemView.findViewById(R.id.ai_btn_AnadirCarrito);
+            articulo_code = itemView.findViewById(R.id.ai_ArticuloCode);
         }
     }
 
@@ -57,12 +57,19 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        if(articulo == null) return;
+        if(listaArticulos == null) return;
         //if (listaArticulos == null) return;
 
         holder.articulo_name.setText(articulo.getDescripcion());
         holder.articulo_price.setText(String.valueOf(articulo.getPrecio()));
         holder.articulo_cant.setText(articulo.getCantidad());
+        holder.articulo_code.setText(articulo.getCodigo());
+        holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         /*for(Articulo a : listaArticulos){
             holder.articulo_name.setText(a.getDescripcion());
@@ -74,9 +81,9 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
 
     @Override
     public int getItemCount() {
-        /*if(listaArticulos == null) return 0;
-        return listaArticulos.size();*/
-        if(articulo == null) return 0;
+        if(listaArticulos == null) return 0;
         return listaArticulos.size();
+        /*if(articulo == null) return 0;
+        return listaArticulos.size();*/
     }
 }
