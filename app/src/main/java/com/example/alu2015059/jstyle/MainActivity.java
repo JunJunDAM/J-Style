@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.alu2015059.jstyle.Service.Login_VersionBeta.Login;
 import com.example.alu2015059.jstyle.Service.MostrarArticulos.PaginaArticulos;
@@ -45,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        
+        ImageButton imageViewMap = findViewById(R.id.imageViewMap);
+        imageViewMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Image Maps clicked."); // Checkear el logcat
+                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+            }
+
+        });
+        
     }
 
 
