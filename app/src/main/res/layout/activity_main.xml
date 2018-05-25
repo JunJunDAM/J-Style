@@ -6,15 +6,20 @@
     android:layout_height="match_parent"
     tools:context="com.example.alu2015059.jstyle.MainActivity">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="365dp"
-        android:layout_height="187dp"
+    <ImageButton
+        android:id="@+id/imageViewMap"
+        android:layout_width="359dp"
+        android:layout_height="222dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="12dp"
+
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/thumbnail_map"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulo_tv" />
 
@@ -94,12 +99,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="Login"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewMap" />
 
 </android.support.constraint.ConstraintLayout>
