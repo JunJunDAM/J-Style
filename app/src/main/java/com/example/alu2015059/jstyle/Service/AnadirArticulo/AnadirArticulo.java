@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.Service.Login_VersionBeta.Login;
 
 /**
  * Created by alu2015059 on 05/02/2018.
@@ -57,6 +59,8 @@ public class AnadirArticulo extends AppCompatActivity{
                 Articulo articulo = new Articulo(description, code, cantity, sex, price);
                 //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
                 SQLiteDBHelper.insertArticulo(articulo);
+
+                Toast.makeText(AnadirArticulo.this, "Articulo creado correctamente",Toast.LENGTH_SHORT).show();
 
                 //Cierro la base de datos
                 sqLiteDatabase.close();

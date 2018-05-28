@@ -1,5 +1,7 @@
 package com.example.alu2015059.jstyle.Service.MostrarArticulos;
 
+import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +25,27 @@ import java.util.List;
 public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.ViewHolder>{
 
     List<Articulo> listaArticulos = new ArrayList<>();
+    AppCompatActivity activity;
 
-    public ArticulosAdapter(List<Articulo> listaArticulos){
+    public ArticulosAdapter(List<Articulo> listaArticulos, AppCompatActivity activity){
         super();
         this.listaArticulos = listaArticulos;
+        this.activity = activity;
     }
-
-    /*public ArticulosAdapter(Articulo articulo){
-        super();
-        this.articulo = articulo;
-    }*/
 
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView articulo_Image;
-        TextView articulo_name, articulo_price, articulo_cant, articulo_code;
+        TextView articulo_name, articulo_price, articulo_code, articulo_cantidad;
         Button btn_anadirCesta;
 
         public ViewHolder(View itemView){
             super(itemView);
-            articulo_Image = itemView.findViewById(R.id.ai_ArticuloImage);
-            articulo_name = itemView.findViewById(R.id.ai_ArticuloName);
-            articulo_cant = itemView.findViewById(R.id.ai_ArticuloCant);
+            articulo_Image = itemView.findViewById(R.id.ci_ArticuloImage);
+            articulo_name = itemView.findViewById(R.id.ci_ArticuloName);
             articulo_price = itemView.findViewById(R.id.ai_ArticuloPrice);
-            btn_anadirCesta = itemView.findViewById(R.id.ai_btn_AnadirCarrito);
-            articulo_code = itemView.findViewById(R.id.ai_ArticuloCode);
+            articulo_cantidad = itemView.findViewById(R.id.ai_ArticuloCantidad);
+            btn_anadirCesta = itemView.findViewById(R.id.ci_btn_Eliminar);
+            articulo_code = itemView.findViewById(R.id.ci_ArticuloCode);
         }
     }
 
@@ -55,35 +56,38 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
 
         if(listaArticulos == null) return;
-        //if (listaArticulos == null) return;
 
-        holder.articulo_name.setText(articulo.getDescripcion());
-        holder.articulo_price.setText(String.valueOf(articulo.getPrecio()));
-        holder.articulo_cant.setText(articulo.getCantidad());
-        holder.articulo_code.setText(articulo.getCodigo());
+        String descripcion = listaArticulos.get(position).getDescripcion();
+        Double precio = listaArticulos.get(position).getPrecio();
+        String codigo = listaArticulos.get(position).getCodigo();
+        int cantidad = listaArticulos.get(position).getCantidad();
+
+        holder.articulo_cantidad.setText(String.valueOf(cantidad));
+        holder.articulo_name.setText(descripcion);
+        holder.articulo_price.setText(String.valueOf(precio));
+        holder.articulo_code.setText(codigo);
+
         holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
+                SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
+                SQLiteDBHelper.insertCompra(listaArticulos.get(position));
+                Toast.makeText(activity, "Articulo añadido a la cesta",Toast.LENGTH_SHORT).show();
+
+                sqLiteDatabase.close();
             }
         });
 
-        /*for(Articulo a : listaArticulos){
-            holder.articulo_name.setText(a.getDescripcion());
-            //holder.articulo_Image;
-            holder.articulo_price.setText(String.valueOf(a.getPrecio()));
-            holder.articulo_cant.setText(String.valueOf(a.getCantidad()));
-        }*/
     }
 
     @Override
     public int getItemCount() {
         if(listaArticulos == null) return 0;
         return listaArticulos.size();
-        /*if(articulo == null) return 0;
-        return listaArticulos.size();*/
     }
 }

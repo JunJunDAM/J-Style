@@ -40,5 +40,7 @@
         <activity
             android:name="com.example.alu2015059.jstyle.Service.Mapa.MapsActivity"
             android:label="@string/title_activity_maps" />
+        <activity android:name=".Service.Compra.CompraActivity"/>
+        <activity android:name=".Service.Compra.Carrito"/>
     </application>
 </manifest>

@@ -27,17 +27,49 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Creamos las tablas en la base de datos
         sqLiteDatabase.execSQL(ArticulosDB.ARTICULOS_CREATE_TABLE);
         sqLiteDatabase.execSQL(LoginDB.USERS_CREATE_TABLE);
+        sqLiteDatabase.execSQL(CompraDB.COMPRA_CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL(ArticulosDB.ARTICULOS_DROPTABLE);
         sqLiteDatabase.execSQL(LoginDB.USERS_DROPTABLE);
+        sqLiteDatabase.execSQL(CompraDB.COMPRA_DROPTABLE);
         //Llamamos al metodo onCreate para que se cree de nuevo la tabla
         this.onCreate(sqLiteDatabase);
     }
 
     // CRUD
+
+    public void restartBBDD(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query1 = "DELETE * FROM ARTICULOS";
+        db.execSQL(query1);
+        String query2 = "DELETE * FROM USERS";
+        db.execSQL(query2);
+        String query3 = "DELETE * FROM COMPRA";
+        db.execSQL(query3);
+        db.close();
+    }
+
+    public void insertCompra(Articulo articulo){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //Creamos un objeto para agregar las columnas y valores
+        ContentValues values = new ContentValues();
+        values.put(CompraDB.COMPRA.DESCRIPCION, articulo.getDescripcion());
+        values.put(CompraDB.COMPRA.CODIGO, articulo.getCodigo());
+        values.put(CompraDB.COMPRA.CANTIDAD, articulo.getCantidad());
+        values.put(CompraDB.COMPRA.SEXO, articulo.getSexo());
+        values.put(CompraDB.COMPRA.PRECIO, articulo.getPrecio());
+
+        //Insertamos los datos en la tabla
+        db.insert(CompraDB.COMPRA.TABLE_NAME, null, values);
+
+        //Cerramos la conexion con la base de datos
+        db.close();
+    }
 
     public void insertUser(User user){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -93,7 +125,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public Articulo getArticuloByCodigo(String codigo){
+    public List<Articulo> getArticuloByCodigo(String codigo){
         //Declaro un objeto articulo
         Articulo articulo = null;
         //Obtenemos los permisod de lectura
@@ -101,6 +133,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Definimos un array con los nombres de columnas que queremos
         String[] COLUMNAS = {ArticulosDB.ARTICULOS.DESCRIPCION, ArticulosDB.ARTICULOS.CODIGO, ArticulosDB.ARTICULOS.CANTIDAD, ArticulosDB.ARTICULOS.SEXO, ArticulosDB.ARTICULOS.PRECIO};
         //Construimos la QUERY
+
+        List<Articulo> articulos = new ArrayList<>();
 
         Cursor cursor = db.query(ArticulosDB.ARTICULOS.TABLE_NAME, //Nombre de la tabla
                 COLUMNAS, //Nombre de las columnas
@@ -121,11 +155,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
             articulo.setCantidad(Integer.parseInt(cursor.getString(2)));
             articulo.setSexo(cursor.getString(3));
             articulo.setPrecio(Double.parseDouble(cursor.getString(4)));
+
+            articulos.add(articulo);
         }
         cursor.close();
         db.close();
         //Devolvemos el objeto Prenda
-        return  articulo;
+        return articulos;
     }
 
     //Obtener todos los articulos
@@ -134,6 +170,36 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         List articulos = new ArrayList();
         //Metemos en un String la query que queremos ejecutar
         String query = "SELECT * FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "'";
+        //Obtenemos permisos de escritura y ejecutamos la query
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        //Revisamos lso registros y agregamos al array
+        Articulo articulo = null;
+        if(cursor.moveToFirst()){
+            do{
+                articulo = new Articulo();
+                articulo.setDescripcion(cursor.getString(0));
+                articulo.setCodigo(cursor.getString(1));
+                articulo.setCantidad(Integer.parseInt(cursor.getString(2)));
+                articulo.setSexo(cursor.getString(3));
+                articulo.setPrecio(Double.parseDouble(cursor.getString(4)));
+                // Añadimos los articulos a la lista de articulos
+                articulos.add(articulo);
+            }while (cursor.moveToNext());
+        }
+
+        //Cerramos el cursor
+        cursor.close();
+        db.close();
+        //Devolvemos los articulos encontrados
+        return articulos;
+    }
+
+    public List getCarrito(){
+        //Creamos una Array para llenarlo con los articulos que tengamos en la BD
+        List articulos = new ArrayList();
+        //Metemos en un String la query que queremos ejecutar
+        String query = "SELECT * FROM '" + CompraDB.COMPRA.TABLE_NAME + "'";
         //Obtenemos permisos de escritura y ejecutamos la query
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

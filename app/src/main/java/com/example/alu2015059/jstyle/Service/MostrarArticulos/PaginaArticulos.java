@@ -14,8 +14,10 @@ import android.widget.EditText;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.CompraDB;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 import com.example.alu2015059.jstyle.Service.AnadirArticulo.AnadirArticulo;
+import com.example.alu2015059.jstyle.Service.Compra.Carrito;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ public class PaginaArticulos extends AppCompatActivity{
     private RecyclerView rv_Articulos;
     private Button btn_buscar;
     private Button btn_volver;
+    private Button btn_comprar;
     private Button btn_anadirArticulo;
 
 
@@ -45,6 +48,11 @@ public class PaginaArticulos extends AppCompatActivity{
         code = findViewById(R.id.pga_et_buscador);
         srl_Articulos = findViewById(R.id.srl_articulos);
         rv_Articulos = findViewById(R.id.rv_articulos);
+        btn_comprar = findViewById(R.id.pga_btn_comprar);
+
+        final String codigo = code.getText().toString();
+
+        updateArticulos();
 
         //Boton para volver a la pagina principal
         btn_volver.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +66,16 @@ public class PaginaArticulos extends AppCompatActivity{
         btn_buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateArticulos();
+                if(codigo.isEmpty()){
+                    updateArticulos();
+                }else{
+                    SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
+                    SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
+
+                    updateByCodigo(SQLiteDBHelper.getArticuloByCodigo(codigo));
+
+                    sqLiteDatabase.close();
+                }
             }
         });
 
@@ -77,6 +94,14 @@ public class PaginaArticulos extends AppCompatActivity{
                 updateArticulos();
             }
         });
+
+        btn_comprar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PaginaArticulos.this, Carrito.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateArticulos() {
@@ -91,7 +116,16 @@ public class PaginaArticulos extends AppCompatActivity{
     public void update(List<Articulo> listaArticulos){
         srl_Articulos.setRefreshing(false);
 
-        ArticulosAdapter adapter = new ArticulosAdapter(listaArticulos);
+        ArticulosAdapter adapter = new ArticulosAdapter(listaArticulos, this);
+        rv_Articulos.setLayoutManager(new LinearLayoutManager(PaginaArticulos.this));
+        rv_Articulos.setItemAnimator(new DefaultItemAnimator());
+        rv_Articulos.setAdapter(adapter);
+    }
+
+    public void updateByCodigo(List<Articulo> articulo){
+        srl_Articulos.setRefreshing(false);
+
+        ArticulosAdapter adapter = new ArticulosAdapter(articulo, this);
         rv_Articulos.setLayoutManager(new LinearLayoutManager(PaginaArticulos.this));
         rv_Articulos.setItemAnimator(new DefaultItemAnimator());
         rv_Articulos.setAdapter(adapter);
