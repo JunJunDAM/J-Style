@@ -125,42 +125,72 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public List<Articulo> getArticuloByCodigo(String codigo){
-        //Declaro un objeto articulo
-        Articulo articulo = null;
-        //Obtenemos los permisod de lectura
-        SQLiteDatabase db = this.getReadableDatabase();
-        //Definimos un array con los nombres de columnas que queremos
-        String[] COLUMNAS = {ArticulosDB.ARTICULOS.DESCRIPCION, ArticulosDB.ARTICULOS.CODIGO, ArticulosDB.ARTICULOS.CANTIDAD, ArticulosDB.ARTICULOS.SEXO, ArticulosDB.ARTICULOS.PRECIO};
-        //Construimos la QUERY
+    public void compraFinal(List<Articulo> listaCompra){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
 
-        List<Articulo> articulos = new ArrayList<>();
 
-        Cursor cursor = db.query(ArticulosDB.ARTICULOS.TABLE_NAME, //Nombre de la tabla
-                COLUMNAS, //Nombre de las columnas
-                " codigo = ?", // Columnas de la clausula WHERE
-                new String[]{codigo}, // Valores de las columnas de la clausula WHere
-                null, //Clausula GroupBy
-                null, //Clausula Having
-                null, //Clausula OrderBy
-                null); //Limite de registros
 
-        //Sacamos el resultado obtenido por el codigo proporcionado
-        if(cursor != null){
-            cursor.moveToFirst();
-            // Construyo el objeto Prenda
-            articulo = new Articulo();
-            articulo.setDescripcion(cursor.getString(0));
-            articulo.setCodigo(cursor.getString(1));
-            articulo.setCantidad(Integer.parseInt(cursor.getString(2)));
-            articulo.setSexo(cursor.getString(3));
-            articulo.setPrecio(Double.parseDouble(cursor.getString(4)));
+        int cant = 0;
 
-            articulos.add(articulo);
+        for(Articulo a : listaCompra){
+            db.execSQL("UPDATE '" + ArticulosDB.ARTICULOS.TABLE_NAME
+                    + " SET cantidad = cantidad -= '" + a.getCantidad()
+                    + "' WHERE codigo = '" + a.getCodigo() + "'");
         }
+
+        //Cerramos la conexion con la base de datos
+        db.close();
+    }
+
+    public void deleteArticulo(Articulo articulo){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.execSQL("DELETE FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "' WHERE codigo = '" + articulo.getCodigo() + "'");
+
+        //Cerramos la conexion con la base de datos
+        db.close();
+    }
+
+    public void deleteArticuloFromCarrito(Articulo articulo){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "DELETE FROM COMPRA WHERE codigo = '" + articulo.getCodigo() + "'";
+        db.execSQL(query);
+
+        //Cerramos la conexion con la base de datos
+        db.close();
+    }
+
+    public List<Articulo> getArticuloByCodigo(String codigo){
+        //Creamos una Array para llenarlo con los articulos que tengamos en la BD
+        List articulos = new ArrayList();
+        //Metemos en un String la query que queremos ejecutar
+        String query = "SELECT * FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "' WHERE codigo LIKE '%" + codigo + "%'";
+        //Obtenemos permisos de escritura y ejecutamos la query
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        //Revisamos lso registros y agregamos al array
+        Articulo articulo = null;
+        if(cursor.moveToFirst()){
+            do{
+                articulo = new Articulo();
+                articulo.setDescripcion(cursor.getString(0));
+                articulo.setCodigo(cursor.getString(1));
+                articulo.setCantidad(Integer.parseInt(cursor.getString(2)));
+                articulo.setSexo(cursor.getString(3));
+                articulo.setPrecio(Double.parseDouble(cursor.getString(4)));
+                // Añadimos los articulos a la lista de articulos
+                articulos.add(articulo);
+            }while (cursor.moveToNext());
+        }
+
+        //Cerramos el cursor
         cursor.close();
         db.close();
-        //Devolvemos el objeto Prenda
+        //Devolvemos los articulos encontrados
         return articulos;
     }
 

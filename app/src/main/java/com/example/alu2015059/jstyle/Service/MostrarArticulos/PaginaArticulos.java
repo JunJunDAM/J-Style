@@ -11,10 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
-import com.example.alu2015059.jstyle.Repository.CompraDB;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 import com.example.alu2015059.jstyle.Service.AnadirArticulo.AnadirArticulo;
 import com.example.alu2015059.jstyle.Service.Compra.Carrito;
@@ -25,8 +25,6 @@ import java.util.List;
  * Created by alu2015059 on 23/01/2018.
  */
 
-//link para hacer fragments : http://www.hermosaprogramacion.com/2014/10/android-listas-adaptadores/
-
 public class PaginaArticulos extends AppCompatActivity{
     private EditText code;
     private SwipeRefreshLayout srl_Articulos;
@@ -35,7 +33,7 @@ public class PaginaArticulos extends AppCompatActivity{
     private Button btn_volver;
     private Button btn_comprar;
     private Button btn_anadirArticulo;
-
+    private String codigo;
 
     @Override
     protected  void onCreate(Bundle savedInstanceState){
@@ -50,9 +48,7 @@ public class PaginaArticulos extends AppCompatActivity{
         rv_Articulos = findViewById(R.id.rv_articulos);
         btn_comprar = findViewById(R.id.pga_btn_comprar);
 
-        final String codigo = code.getText().toString();
-
-        updateArticulos();
+        updateArticulos(true);
 
         //Boton para volver a la pagina principal
         btn_volver.setOnClickListener(new View.OnClickListener() {
@@ -66,15 +62,15 @@ public class PaginaArticulos extends AppCompatActivity{
         btn_buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                codigo = code.getText().toString();
+
                 if(codigo.isEmpty()){
-                    updateArticulos();
+                    updateArticulos(true);
+                    Toast.makeText(PaginaArticulos.this, "Refrescando lista de Articulos",Toast.LENGTH_SHORT).show();
                 }else{
-                    SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
-                    SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
-
-                    updateByCodigo(SQLiteDBHelper.getArticuloByCodigo(codigo));
-
-                    sqLiteDatabase.close();
+                    updateArticulos(false);
+                    Toast.makeText(PaginaArticulos.this, "Articulos encontrados con : " + codigo,Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -91,7 +87,8 @@ public class PaginaArticulos extends AppCompatActivity{
         srl_Articulos.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateArticulos();
+                updateArticulos(false);
+                Toast.makeText(PaginaArticulos.this, "Refrescando lista de Articulos",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,11 +101,16 @@ public class PaginaArticulos extends AppCompatActivity{
         });
     }
 
-    private void updateArticulos() {
+    private void updateArticulos(Boolean empty) {
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
         SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
-        update(SQLiteDBHelper.getAllArticulos());
+        if(empty){
+            update(SQLiteDBHelper.getAllArticulos());
+        }
+        else {
+            update(SQLiteDBHelper.getArticuloByCodigo(codigo));
+        }
 
         sqLiteDatabase.close();
     }
@@ -121,22 +123,4 @@ public class PaginaArticulos extends AppCompatActivity{
         rv_Articulos.setItemAnimator(new DefaultItemAnimator());
         rv_Articulos.setAdapter(adapter);
     }
-
-    public void updateByCodigo(List<Articulo> articulo){
-        srl_Articulos.setRefreshing(false);
-
-        ArticulosAdapter adapter = new ArticulosAdapter(articulo, this);
-        rv_Articulos.setLayoutManager(new LinearLayoutManager(PaginaArticulos.this));
-        rv_Articulos.setItemAnimator(new DefaultItemAnimator());
-        rv_Articulos.setAdapter(adapter);
-    }
-
-    /*public void update(Articulo articulo){
-        srl_Articulos.setRefreshing(false);
-
-        ArticulosAdapter adapter = new ArticulosAdapter(articulo);
-        rv_Articulos.setLayoutManager(new LinearLayoutManager(PaginaArticulos.this));
-        rv_Articulos.setItemAnimator(new DefaultItemAnimator());
-        rv_Articulos.setAdapter(adapter);
-    }*/
 }

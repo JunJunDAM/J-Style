@@ -65,24 +65,44 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
         String codigo = listaArticulos.get(position).getCodigo();
         int cantidad = listaArticulos.get(position).getCantidad();
 
-        holder.articulo_cantidad.setText(String.valueOf(cantidad));
-        holder.articulo_name.setText(descripcion);
-        holder.articulo_price.setText(String.valueOf(precio));
-        holder.articulo_code.setText(codigo);
+        if(cantidad == 0){
+            holder.articulo_cantidad.setText(String.valueOf(cantidad));
+            holder.articulo_name.setText(descripcion);
+            holder.articulo_price.setText(String.valueOf(precio));
+            holder.articulo_code.setText(codigo);
 
-        holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
-                SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
+            holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(activity, "Articulo agotado",Toast.LENGTH_SHORT).show();
+                }
+            });
 
-                SQLiteDBHelper.insertCompra(listaArticulos.get(position));
-                Toast.makeText(activity, "Articulo añadido a la cesta",Toast.LENGTH_SHORT).show();
+            SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
+            SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
-                sqLiteDatabase.close();
-            }
-        });
+            SQLiteDBHelper.deleteArticulo(listaArticulos.get(position));
 
+            sqLiteDatabase.close();
+        }else {
+            holder.articulo_cantidad.setText(String.valueOf(cantidad));
+            holder.articulo_name.setText(descripcion);
+            holder.articulo_price.setText(String.valueOf(precio));
+            holder.articulo_code.setText(codigo);
+
+            holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
+                    SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
+
+                    SQLiteDBHelper.insertCompra(listaArticulos.get(position));
+                    Toast.makeText(activity, "Articulo añadido a la cesta",Toast.LENGTH_SHORT).show();
+
+                    sqLiteDatabase.close();
+                }
+            });
+        }
     }
 
     @Override

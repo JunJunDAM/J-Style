@@ -95,7 +95,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Compar"
+        android:text="Carrito"
         app:layout_constraintBottom_toTopOf="@+id/srl_articulos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pga_btn_anadir"
