@@ -129,14 +129,18 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
 
-
-
+        List<Articulo> articulos = getAllArticulos();
         int cant = 0;
 
-        for(Articulo a : listaCompra){
-            db.execSQL("UPDATE '" + ArticulosDB.ARTICULOS.TABLE_NAME
-                    + " SET cantidad = cantidad -= '" + a.getCantidad()
-                    + "' WHERE codigo = '" + a.getCodigo() + "'");
+        for (Articulo articulo : articulos){
+            for (Articulo carrito : listaCompra){
+                if (articulo.getCodigo().equals(carrito.getCodigo())){
+
+                    articulo.setCantidad(articulo.getCantidad() - carrito.getCantidad());
+
+                    db.execSQL("UPDATE '" + ArticulosDB.ARTICULOS.TABLE_NAME + "' SET cantidad = '" + articulo.getCantidad() + "' WHERE codigo = '" + articulo.getCodigo() + "'");
+                }
+            }
         }
 
         //Cerramos la conexion con la base de datos
