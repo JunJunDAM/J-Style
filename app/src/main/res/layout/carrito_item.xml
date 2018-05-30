@@ -73,13 +73,15 @@
     <TextView
         android:id="@+id/ci_ArticuloCode"
         android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@+id/code"
         app:layout_constraintTop_toBottomOf="@+id/ci_ArticuloImage" />
 
@@ -105,19 +107,22 @@
         android:layout_width="75dp"
         android:layout_height="20dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Cantidad : "
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ci_ArticuloCantidad"
         app:layout_constraintStart_toEndOf="@+id/ci_ArticuloCode"
         app:layout_constraintTop_toBottomOf="@+id/ci_ArticuloImage" />
 
     <EditText
         android:id="@+id/ci_ArticuloCantidad"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -125,8 +130,22 @@
         android:text="1"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ci_ibtn_saveCant"
         app:layout_constraintStart_toEndOf="@+id/textView"
         app:layout_constraintTop_toBottomOf="@+id/ci_ArticuloImage" />
+
+    <ImageButton
+        android:id="@+id/ci_ibtn_saveCant"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ci_ArticuloCantidad"
+        app:layout_constraintTop_toBottomOf="@+id/ci_ArticuloImage"
+        app:srcCompat="@android:drawable/ic_menu_save" />
 
 </android.support.constraint.ConstraintLayout>

@@ -105,11 +105,11 @@ public class PaginaArticulos extends AppCompatActivity{
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
         SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
-        if(empty){
-            update(SQLiteDBHelper.getAllArticulos());
+        if(!empty){
+            update(SQLiteDBHelper.getArticuloByCodigo(codigo));
         }
         else {
-            update(SQLiteDBHelper.getArticuloByCodigo(codigo));
+            update(SQLiteDBHelper.getAllArticulos());
         }
 
         sqLiteDatabase.close();

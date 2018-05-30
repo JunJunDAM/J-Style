@@ -125,6 +125,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
+    public void updateCant(Articulo articulo, int cant){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE ARTICULOS SET cantidad = '" + articulo.getCantidad() + "' WHERE codigo = '" + articulo.getCodigo() + "'";
+        db.execSQL(query);
+
+        db.close();
+    }
+
     public void compraFinal(List<Articulo> listaCompra){
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
