@@ -1,10 +1,15 @@
 package com.example.alu2015059.jstyle.Domain;
 
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.widget.ImageView;
+
 /**
  * Created by alu2015059 on 26/02/2018.
  */
 
 public class Articulo {
+    //private Bitmap bitmap;
     private String descripcion;
     private String codigo;
     private Integer cantidad;
@@ -20,18 +25,16 @@ public class Articulo {
         this.cantidad = cantidad;
         this.sexo = sexo;
         this.precio = precio;
+        //.bitmap = bitmap;
     }
 
-    @Override
-    public String toString() {
-        return "Articulo{" +
-                "descripcion='" + descripcion + '\'' +
-                ", codigo='" + codigo + '\'' +
-                ", cantidad=" + cantidad +
-                ", sexo='" + sexo + '\'' +
-                ", precio=" + precio +
-                '}';
+    /*public Bitmap getBitmap() {
+        return bitmap;
     }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }*/
 
     public String getCodigo() {
         return codigo;

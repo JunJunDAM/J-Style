@@ -1,13 +1,16 @@
 package com.example.alu2015059.jstyle.Service.Compra;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.MainActivity;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
@@ -53,17 +56,22 @@ public class CompraActivity extends AppCompatActivity {
         btn_comprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(CompraActivity.this);
-                SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
-                SQLiteDBHelper.compraFinal(SQLiteDBHelper.getCarrito());
+                List<Articulo> listaCarrito = new ArrayList<>();
+                listaCarrito = SQLiteDBHelper.getCarrito();
 
-                sqLiteDatabase.close();
+                SQLiteDBHelper.compraFinal(listaCarrito);
+                SQLiteDBHelper.deleteCarrito(listaCarrito);
+
+                Toast.makeText(CompraActivity.this, "Gracias por utilizar este servicio",Toast.LENGTH_SHORT).show();
 
                 tv_articulos.setText("");
                 tv_precio.setText("");
                 tv_total.setText("");
+
+                Intent intent = new Intent(CompraActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -74,7 +82,6 @@ public class CompraActivity extends AppCompatActivity {
         int iva = 21;
 
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(CompraActivity.this);
-        SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
         listaArticulos = SQLiteDBHelper.getCarrito();
 
@@ -83,15 +90,11 @@ public class CompraActivity extends AppCompatActivity {
             cantidad += a.getCantidad();
         }
 
-        precio = Math.round(precio * cantidad) * 100 / 100;
-
         double total = Math.round(precio + (precio * iva / 100))* 100 / 100;
 
         tv_articulos.setText(String.valueOf(cantidad));
         tv_precio.setText(String.valueOf(precio));
         tv_total.setText(String.valueOf(total));
-
-        sqLiteDatabase.close();
     }
 
 }

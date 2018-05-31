@@ -112,6 +112,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
         //Creamos un objeto para agregar las columnas y valores
         ContentValues values = new ContentValues();
+        //values.put(ArticulosDB.ARTICULOS.IMAGE, articulo.getBitmap());
         values.put(ArticulosDB.ARTICULOS.DESCRIPCION, articulo.getDescripcion());
         values.put(ArticulosDB.ARTICULOS.CODIGO, articulo.getCodigo());
         values.put(ArticulosDB.ARTICULOS.CANTIDAD, articulo.getCantidad());
@@ -128,7 +129,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     public void updateCant(Articulo articulo, int cant){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "UPDATE ARTICULOS SET cantidad = '" + articulo.getCantidad() + "' WHERE codigo = '" + articulo.getCodigo() + "'";
+        String query = "UPDATE'" + CompraDB.COMPRA.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
         db.execSQL(query);
 
         db.close();
@@ -139,19 +140,26 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
 
         List<Articulo> articulos = getAllArticulos();
-        int cant = 0;
 
         for (Articulo articulo : articulos){
             for (Articulo carrito : listaCompra){
                 if (articulo.getCodigo().equals(carrito.getCodigo())){
-
                     articulo.setCantidad(articulo.getCantidad() - carrito.getCantidad());
-
-                    db.execSQL("UPDATE '" + ArticulosDB.ARTICULOS.TABLE_NAME + "' SET cantidad = '" + articulo.getCantidad() + "' WHERE codigo = '" + articulo.getCodigo() + "'");
+                    db.execSQL("UPDATE'" + ArticulosDB.ARTICULOS.TABLE_NAME + "' SET cantidad = '" + articulo.getCantidad() + "' WHERE codigo = '" + articulo.getCodigo() + "'");
                 }
             }
         }
+        //Cerramos la conexion con la base de datos
+        db.close();
+    }
 
+    public void deleteCarrito(List<Articulo> articulos){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for(Articulo a : articulos){
+            db.execSQL("DELETE FROM '" + CompraDB.COMPRA.TABLE_NAME + "' WHERE codigo = '" + a.getCodigo() + "'");
+        }
         //Cerramos la conexion con la base de datos
         db.close();
     }
@@ -170,7 +178,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "DELETE FROM COMPRA WHERE codigo = '" + articulo.getCodigo() + "'";
+        String query = "DELETE FROM '" + CompraDB.COMPRA.TABLE_NAME + "' WHERE codigo = '" + articulo.getCodigo() + "'";
         db.execSQL(query);
 
         //Cerramos la conexion con la base de datos

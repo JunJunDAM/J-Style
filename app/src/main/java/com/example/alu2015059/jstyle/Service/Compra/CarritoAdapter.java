@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.CompraDB;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
             btn_eliminar = itemView.findViewById(R.id.ci_btn_Eliminar);
             articulo_code = itemView.findViewById(R.id.ci_ArticuloCode);
             ibtn_save = itemView.findViewById(R.id.ci_ibtn_saveCant);
+            new_cantidad = itemView.findViewById(R.id.ci_ArticuloCantidad);
         }
     }
 
@@ -77,34 +79,32 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         holder.articulo_price.setText(String.valueOf(precio));
         holder.articulo_code.setText(codigo);
 
-        /*holder.ibtn_save.setOnClickListener(new View.OnClickListener() {
+        holder.ibtn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
-                SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
-                Editable cantS = new_cantidad.getText();
-                int cant = Integer.valueOf(cantS);
+                String cantS = new_cantidad.getText().toString();
+                int cant = Integer.parseInt(cantS);
 
-                SQLiteDBHelper.updateCant(listaArticulos.get(position), cantS);
+                if(cant < 0){
+                    new_cantidad.setText("1");
+                }
 
-                Toast.makeText(activity, "Articulo eliminado del carrito",Toast.LENGTH_SHORT).show();
+                SQLiteDBHelper.updateCant(listaArticulos.get(position), cant);
 
-                sqLiteDatabase.close();
+                Toast.makeText(activity, "Cantidad de " + listaArticulos.get(position).getDescripcion() + " : " + listaArticulos.get(position).getCantidad(),Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
 
         holder.btn_eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
-                SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
                 SQLiteDBHelper.deleteArticuloFromCarrito(listaArticulos.get(position));
 
                 Toast.makeText(activity, "Articulo eliminado del carrito",Toast.LENGTH_SHORT).show();
-
-                sqLiteDatabase.close();
             }
         });
     }

@@ -25,29 +25,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/foto"
+        android:id="@+id/ai_foto"
         android:layout_width="150dp"
         android:layout_height="72dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_descripcion"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_marginLeft="8dp" />
+        app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
-        android:id="@+id/foto_btn"
+        android:id="@+id/ai_foto_btn"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="Tomar foto"
+        android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/foto"
+        app:layout_constraintStart_toEndOf="@+id/ai_foto"
         app:layout_constraintTop_toBottomOf="@+id/titulo"
         tools:ignore="MissingConstraints" />
 
@@ -57,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:contentDescription="Descripcion"
         android:ems="10"
         android:hint="Descripción"
@@ -66,7 +64,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foto_btn"
+        app:layout_constraintTop_toBottomOf="@+id/ai_foto"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -157,4 +155,17 @@
         android:text="Cancelar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_precio" />
+
+    <Button
+        android:id="@+id/aa_btn_galeria"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Galeria"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ai_foto"
+        app:layout_constraintTop_toBottomOf="@+id/ai_foto_btn" />
 </android.support.constraint.ConstraintLayout>

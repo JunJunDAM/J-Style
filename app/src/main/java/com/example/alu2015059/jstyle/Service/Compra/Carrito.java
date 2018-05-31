@@ -66,11 +66,8 @@ public class Carrito extends AppCompatActivity{
 
     private void updateArticulos() {
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(Carrito.this);
-        SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
         update(SQLiteDBHelper.getCarrito());
-
-        sqLiteDatabase.close();
     }
 
     private void update(List<Articulo> listaArticulos) {

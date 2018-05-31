@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.CompraDB;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
 import java.util.ArrayList;
@@ -79,11 +80,8 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             });
 
             SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
-            SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
-
             SQLiteDBHelper.deleteArticulo(listaArticulos.get(position));
 
-            sqLiteDatabase.close();
         }else {
             holder.articulo_cantidad.setText(String.valueOf(cantidad));
             holder.articulo_name.setText(descripcion);
@@ -94,12 +92,9 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
                 @Override
                 public void onClick(View view) {
                     SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
-                    SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
-
+                    listaArticulos.get(position).setCantidad(1);
                     SQLiteDBHelper.insertCompra(listaArticulos.get(position));
                     Toast.makeText(activity, "Articulo añadido a la cesta",Toast.LENGTH_SHORT).show();
-
-                    sqLiteDatabase.close();
                 }
             });
         }

@@ -1,5 +1,8 @@
 package com.example.alu2015059.jstyle.Repository;
 
+import android.graphics.Bitmap;
+import android.widget.ImageView;
+
 /**
  * Created by alu2015059 on 26/02/2018.
  */
