@@ -91,7 +91,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
                     new_cantidad.setText("1");
                 }
 
-                SQLiteDBHelper.updateCant(listaArticulos.get(position), cant);
+                SQLiteDBHelper.updateCantCarrito(listaArticulos.get(position), cant);
 
                 Toast.makeText(activity, "Cantidad de " + listaArticulos.get(position).getDescripcion() + " : " + listaArticulos.get(position).getCantidad(),Toast.LENGTH_SHORT).show();
             }

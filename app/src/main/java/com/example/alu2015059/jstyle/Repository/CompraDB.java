@@ -22,5 +22,13 @@ public class CompraDB {
                     CompraDB.COMPRA.SEXO + " TEXT, " +
                     CompraDB.COMPRA.PRECIO + " DOUBLE);";
 
+    public static final String COMPRA_CREATETABLE_IFNOTEXISTS =
+            "CREATE TABLE IF NOT EXISTS " + COMPRA.TABLE_NAME  + " (" +
+                    CompraDB.COMPRA.DESCRIPCION + " TEXT, " +
+                    CompraDB.COMPRA.CODIGO + " TEXT, " +
+                    CompraDB.COMPRA.CANTIDAD + " INTEGER, " +
+                    CompraDB.COMPRA.SEXO + " TEXT, " +
+                    CompraDB.COMPRA.PRECIO + " DOUBLE);";
+
     public static final String COMPRA_DROPTABLE = "DROP TABLE IF EXISTS " + CompraDB.COMPRA.TABLE_NAME;
 }

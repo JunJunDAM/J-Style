@@ -58,11 +58,23 @@ public class CompraActivity extends AppCompatActivity {
             public void onClick(View view) {
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(CompraActivity.this);
 
+                List<Articulo> listaArticulos = new ArrayList<>();
+                listaArticulos = SQLiteDBHelper.getAllArticulos();
                 List<Articulo> listaCarrito = new ArrayList<>();
                 listaCarrito = SQLiteDBHelper.getCarrito();
 
+                int cantidadArticulos = 0;
+
+                for (Articulo articulo : listaArticulos){
+                    for (Articulo carrito : listaCarrito){
+                        if(articulo.getCodigo().equals(carrito.getCodigo())){
+                            cantidadArticulos = articulo.getCantidad() - carrito.getCantidad();
+                            SQLiteDBHelper.updateCantArticulo(articulo, cantidadArticulos);
+                        }
+                    }
+                }
+
                 SQLiteDBHelper.compraFinal(listaCarrito);
-                SQLiteDBHelper.deleteCarrito(listaCarrito);
 
                 Toast.makeText(CompraActivity.this, "Gracias por utilizar este servicio",Toast.LENGTH_SHORT).show();
 

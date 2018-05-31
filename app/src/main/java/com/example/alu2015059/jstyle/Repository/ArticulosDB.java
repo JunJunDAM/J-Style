@@ -26,5 +26,13 @@ public class ArticulosDB {
                     ARTICULOS.SEXO + " TEXT, " +
                     ARTICULOS.PRECIO + " DOUBLE);";
 
+    public static final String ARTICULOS_CREATETABLE_IFNOTEXISTS =
+            "CREATE TABLE IF NOT EXISTS " + ARTICULOS.TABLE_NAME + " (" +
+                    ARTICULOS.DESCRIPCION + " TEXT, " +
+                    ARTICULOS.CODIGO + " TEXT, " +
+                    ARTICULOS.CANTIDAD + " INTEGER, " +
+                    ARTICULOS.SEXO + " TEXT, " +
+                    ARTICULOS.PRECIO + " DOUBLE);";
+
     public static final String ARTICULOS_DROPTABLE = "DROP TABLE IF EXISTS " + ARTICULOS.TABLE_NAME;
 }

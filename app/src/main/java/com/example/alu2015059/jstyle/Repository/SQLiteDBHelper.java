@@ -39,6 +39,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         this.onCreate(sqLiteDatabase);
     }
 
+    public void createTableIfNotExists(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(CompraDB.COMPRA_CREATETABLE_IFNOTEXISTS);
+        db.execSQL(ArticulosDB.ARTICULOS_CREATETABLE_IFNOTEXISTS);
+    }
     // CRUD
 
     public void restartBBDD(){
@@ -126,10 +131,19 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public void updateCant(Articulo articulo, int cant){
+    public void updateCantCarrito(Articulo articulo, int cant){
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "UPDATE'" + CompraDB.COMPRA.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
+        db.execSQL(query);
+
+        db.close();
+    }
+
+    public void updateCantArticulo(Articulo articulo, int cant){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "UPDATE'" + ArticulosDB.ARTICULOS.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
         db.execSQL(query);
 
         db.close();
@@ -139,15 +153,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
 
-        List<Articulo> articulos = getAllArticulos();
-
-        for (Articulo articulo : articulos){
-            for (Articulo carrito : listaCompra){
-                if (articulo.getCodigo().equals(carrito.getCodigo())){
-                    articulo.setCantidad(articulo.getCantidad() - carrito.getCantidad());
-                    db.execSQL("UPDATE'" + ArticulosDB.ARTICULOS.TABLE_NAME + "' SET cantidad = '" + articulo.getCantidad() + "' WHERE codigo = '" + articulo.getCodigo() + "'");
-                }
-            }
+        for (Articulo carrito : listaCompra){
+            db.execSQL("DELETE FROM '" + CompraDB.COMPRA.TABLE_NAME + "' WHERE codigo = '" + carrito.getCodigo() + "'");
         }
         //Cerramos la conexion con la base de datos
         db.close();
