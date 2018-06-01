@@ -73,7 +73,7 @@ public class AnadirArticulo extends AppCompatActivity{
                 //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
                 SQLiteDBHelper.insertArticulo(articulo);
 
-                Toast.makeText(AnadirArticulo.this, "Articulo creado correctamente",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AnadirArticulo.this, "ARTICULO creado correctamente",Toast.LENGTH_SHORT).show();
 
                 //Despues de que el boton haga su funcionalidad, hago que vuelva a la pagina de los articulos, finalizando esta
                 AnadirArticulo.this.finish();

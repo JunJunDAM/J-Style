@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.CompraBBDD;
 import com.example.alu2015059.jstyle.Repository.CompraDB;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
@@ -104,7 +105,7 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
                 SQLiteDBHelper.deleteArticuloFromCarrito(listaArticulos.get(position));
 
-                Toast.makeText(activity, "Articulo eliminado del carrito",Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, "ARTICULO eliminado del carrito",Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
+import com.example.alu2015059.jstyle.Repository.ArticulosBBDD;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 import com.example.alu2015059.jstyle.Service.AnadirArticulo.AnadirArticulo;
 import com.example.alu2015059.jstyle.Service.Compra.Carrito;
@@ -103,16 +104,15 @@ public class PaginaArticulos extends AppCompatActivity{
 
     private void updateArticulos(Boolean empty) {
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
-        SQLiteDatabase sqLiteDatabase = SQLiteDBHelper.getWritableDatabase();
 
         if(!empty){
             update(SQLiteDBHelper.getArticuloByCodigo(codigo));
+            //ArticulosBBDD.getArticuloById(getContentResolver(), codigo);
         }
         else {
             update(SQLiteDBHelper.getAllArticulos());
+            //ArticulosBBDD.getAllArticulos(getContentResolver());
         }
-
-        sqLiteDatabase.close();
     }
 
     public void update(List<Articulo> listaArticulos){

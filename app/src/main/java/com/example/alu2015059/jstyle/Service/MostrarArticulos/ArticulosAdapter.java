@@ -75,7 +75,7 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(activity, "Articulo agotado",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "ARTICULO agotado",Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -94,7 +94,7 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
                     SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
                     listaArticulos.get(position).setCantidad(1);
                     SQLiteDBHelper.insertCompra(listaArticulos.get(position));
-                    Toast.makeText(activity, "Articulo añadido a la cesta",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "ARTICULO añadido a la cesta",Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -1,6 +1,8 @@
 package com.example.alu2015059.jstyle.Repository;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.BaseColumns;
 import android.widget.ImageView;
 
 /**
@@ -35,4 +37,13 @@ public class ArticulosDB {
                     ARTICULOS.PRECIO + " DOUBLE);";
 
     public static final String ARTICULOS_DROPTABLE = "DROP TABLE IF EXISTS " + ARTICULOS.TABLE_NAME;
+
+    public static class ARTICULO implements BaseColumns {
+        public static final Uri CONTENT_URI = Uri.parse("content://" + Database.AUTHORITY + "/ARTICULOS");
+        public static final String DESCRIPCION = "descripcion";
+        public static final String CODIGO = "codigo";
+        public static final String CANTIDAD = "cantidad";
+        public static final String SEXO = "sexo";
+        public static final String PRECIO = "precio";
+    }
 }

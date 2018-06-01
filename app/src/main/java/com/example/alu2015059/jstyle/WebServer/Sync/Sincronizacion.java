@@ -45,11 +45,11 @@ public class Sincronizacion {
     }
 
     private void recieveUptadeFromServer() {
-        ArticulosVolley.getAllArticulos();
+
     }
 
     private void sendUpdateToServer() {
-        SQLiteDBHelper sqLiteDBHelper = new SQLiteDBHelper(Sincronizacion.this);
-        List<Articulo> listaArticulos =  sqLiteDBHelper.getAllArticulos();
+        //SQLiteDBHelper sqLiteDBHelper = new SQLiteDBHelper();
+        //List<Articulo> listaArticulos =  sqLiteDBHelper.getAllArticulos();
     }
 }

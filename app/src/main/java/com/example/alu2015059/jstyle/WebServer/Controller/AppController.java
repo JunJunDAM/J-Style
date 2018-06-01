@@ -17,7 +17,7 @@ import javax.xml.transform.sax.TemplatesHandler;
  * Created by alu2015059 on 31/05/2018.
  */
 
-public class AppController extends Application {
+/*public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
 
@@ -27,7 +27,7 @@ public class AppController extends Application {
     private static AppController mInstance;
     private static ContentResolver resolver;
 
-    public static final String AUTHORITY = "";
+    public static final String AUTHORITY = "C:\\Users\\alu2015059\\Desktop\\J-Style\\app\\src\\main\\java\\com\\example\\alu2015059\\jstyle\\Repository\\SQLiteDBHelper.java";
     public static final String ACCOUNT_TYPE = "com.example.alu2015059.jstyle";
     public static final String ACCOUNT = "stockNow";
     public static final long SYNC_INTERVAL = 60;
@@ -103,3 +103,4 @@ public class AppController extends Application {
 
     public void setSincronizacion(Sincronizacion sincronizacion){this.sincronizacion = sincronizacion;}
 }
+*/
