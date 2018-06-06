@@ -46,17 +46,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     }
     // CRUD
 
-    public void restartBBDD(){
-        SQLiteDatabase db = this.getWritableDatabase();
-        String query1 = "DELETE FROM ARTICULOS";
-        db.execSQL(query1);
-        String query2 = "DELETE FROM USERS";
-        db.execSQL(query2);
-        String query3 = "DELETE FROM COMPRA";
-        db.execSQL(query3);
-        db.close();
-    }
-
     public void insertCompra(Articulo articulo){
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
@@ -155,17 +144,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
         for (Articulo carrito : listaCompra){
             db.execSQL("DELETE FROM '" + CompraDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + carrito.getCodigo() + "'");
-        }
-        //Cerramos la conexion con la base de datos
-        db.close();
-    }
-
-    public void deleteCarrito(List<Articulo> articulos){
-        //obtenemos permisos de escritura
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        for(Articulo a : articulos){
-            db.execSQL("DELETE FROM '" + CompraDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + a.getCodigo() + "'");
         }
         //Cerramos la conexion con la base de datos
         db.close();
