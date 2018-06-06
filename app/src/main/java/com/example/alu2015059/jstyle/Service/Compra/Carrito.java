@@ -1,7 +1,6 @@
 package com.example.alu2015059.jstyle.Service.Compra;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by alu2015059 on 28/05/2018.
  */
 
-public class Carrito extends AppCompatActivity{
+public class Carrito extends AppCompatActivity {
 
     private Button btn_cancelar;
     private Button btn_finalizarCarro;

@@ -3,21 +3,24 @@ package com.example.alu2015059.jstyle.WebServer.Controller;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Application;
-import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
+import com.example.alu2015059.jstyle.Repository.Database;
 import com.example.alu2015059.jstyle.WebServer.Sync.Sincronizacion;
-
-import javax.xml.transform.sax.TemplatesHandler;
+import com.example.alu2015059.jstyle.WebServer.Volley.Util.LruBitmapCache;
 
 /**
  * Created by alu2015059 on 31/05/2018.
  */
 
-/*public class AppController extends Application {
+public class AppController extends Application {
 
     public static final String TAG = AppController.class.getSimpleName();
 
@@ -27,7 +30,7 @@ import javax.xml.transform.sax.TemplatesHandler;
     private static AppController mInstance;
     private static ContentResolver resolver;
 
-    public static final String AUTHORITY = "C:\\Users\\alu2015059\\Desktop\\J-Style\\app\\src\\main\\java\\com\\example\\alu2015059\\jstyle\\Repository\\SQLiteDBHelper.java";
+    public static final String AUTHORITY = Database.AUTHORITY;
     public static final String ACCOUNT_TYPE = "com.example.alu2015059.jstyle";
     public static final String ACCOUNT = "stockNow";
     public static final long SYNC_INTERVAL = 60;
@@ -61,22 +64,22 @@ import javax.xml.transform.sax.TemplatesHandler;
         if(mImageLoader == null){
             mImageLoader = new ImageLoader(this.mRequestQueue, new LruBitmapCache());
         }
-        return this.mImageLoader
+        return this.mImageLoader;
     }
 
-    public <I> void addToRequest(DownloadManager.Request<I> req, String tag){
+    public <T> void addToRequestQueue(Request<T> req, String tag){
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
         getRequestQueue().add(req);
     }
 
-    public <I> void addToRequestQueue(DownloadManager.Request<I> req){
+    public <T> void addToRequestQueue(Request<T> req){
         req.setTag(TAG);
         getRequestQueue().add(req);
     }
 
     public void cancelPendingRequests(Object tag){
         if(mRequestQueue != null){
-            mRequestQueue.cancellAll(tag);
+            mRequestQueue.cancelAll(tag);
         }
     }
 
@@ -103,4 +106,3 @@ import javax.xml.transform.sax.TemplatesHandler;
 
     public void setSincronizacion(Sincronizacion sincronizacion){this.sincronizacion = sincronizacion;}
 }
-*/

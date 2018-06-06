@@ -1,4 +1,4 @@
-package com.example.alu2015059.jstyle.Repository;
+package com.example.alu2015059.jstyle.RepositoryTesting;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.Domain.ArticuloSYNC;
+import com.example.alu2015059.jstyle.Repository.ArticulosDB;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class ArticulosBBDD {
 
-    static public void insertArticulo(ContentResolver contentResolver, Articulo articulo){
+    static public Uri insert(ContentResolver contentResolver, Articulo articulo) throws Exception{
         Uri uri = ArticulosDB.ARTICULO.CONTENT_URI;
 
         ContentValues values = new ContentValues();
@@ -26,15 +28,35 @@ public class ArticulosBBDD {
         values.put(ArticulosDB.ARTICULO.SEXO, articulo.getSexo());
         values.put(ArticulosDB.ARTICULO.PRECIO, articulo.getPrecio());
 
-        contentResolver.insert(uri, values);
+        return contentResolver.insert(uri, values);
     }
 
-    static public void deleteArticulo(ContentResolver contentResolver, Articulo articulo){
-        Uri uri = Uri.parse(ArticulosDB.ARTICULO.CONTENT_URI + "/" + articulo.getCodigo());
+    static public Uri insertArticulo(ContentResolver contentResolver, Articulo articulo) throws Exception{
+        Uri uri = insert(contentResolver, articulo);
+
+        ArticuloSYNC sync = new ArticuloSYNC();
+        sync.setCodigo(articulo.getCodigo());
+        sync.setOperacion(C.CREATE);
+        ArticulosSync.insert(contentResolver, sync);
+        return uri;
+    }
+
+    static public void delete(ContentResolver contentResolver, String codigo) throws Exception{
+        Uri uri = Uri.parse(ArticulosDB.ARTICULO.CONTENT_URI + "/" + codigo);
         contentResolver.delete(uri, null, null);
     }
 
-    static public void updateCompra(ContentResolver contentResolver, Articulo articulo){
+    static public void deleteArticulo(ContentResolver contentResolver, String codigo) throws Exception{
+        Uri uri = Uri.parse(ArticulosDB.ARTICULO.CONTENT_URI + "/" + codigo);
+        delete(contentResolver, codigo);
+
+        ArticuloSYNC sync = new ArticuloSYNC();
+        sync.setCodigo(codigo);
+        sync.setOperacion(C.DELETE);
+        ArticulosSync.insert(contentResolver, sync);
+    }
+
+    static public void update(ContentResolver contentResolver, Articulo articulo) throws Exception{
         Uri uri = Uri.parse(ArticulosDB.ARTICULO.CONTENT_URI + "/" + articulo.getCodigo());
 
         ContentValues values = new ContentValues();
@@ -47,8 +69,17 @@ public class ArticulosBBDD {
         contentResolver.update(uri, values, null, null);
     }
 
-    static public Articulo getArticuloById(ContentResolver contentResolver, Articulo articulo){
-        Uri uri = Uri.parse(ArticulosDB.ARTICULO.CONTENT_URI + "/" + articulo.getCodigo());
+    static public void updateArticulo(ContentResolver contentResolver, Articulo articulo) throws Exception{
+        update(contentResolver, articulo);
+
+        ArticuloSYNC sync = new ArticuloSYNC();
+        sync.setCodigo(articulo.getCodigo());
+        sync.setOperacion(C.UPDATE);
+        ArticulosSync.insert(contentResolver, sync);
+    }
+
+    static public Articulo read(ContentResolver contentResolver, String codigo) throws Exception{
+        Uri uri = Uri.parse(ArticulosDB.ARTICULO.CONTENT_URI + "/" + codigo);
 
         String[] COLUMNAS = {ArticulosDB.ARTICULO.DESCRIPCION, ArticulosDB.ARTICULO.CODIGO, ArticulosDB.ARTICULO.CANTIDAD
         , ArticulosDB.ARTICULO.SEXO, ArticulosDB.ARTICULO.PRECIO};
@@ -67,7 +98,7 @@ public class ArticulosBBDD {
         return null;
     }
 
-    static public List<Articulo> getAllArticulos(ContentResolver contentResolver){
+    static public List<Articulo> getAllArticulos(ContentResolver contentResolver) throws Exception{
         Uri uri = ArticulosDB.ARTICULO.CONTENT_URI;
 
         String[] COLUMNAS = {ArticulosDB.ARTICULO.DESCRIPCION, ArticulosDB.ARTICULO.CODIGO, ArticulosDB.ARTICULO.CANTIDAD

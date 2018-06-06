@@ -1,4 +1,4 @@
-package com.example.alu2015059.jstyle.Repository;
+package com.example.alu2015059.jstyle.RepositoryTesting;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.Repository.CompraDB;
 
 import java.util.ArrayList;
 import java.util.List;

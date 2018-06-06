@@ -48,11 +48,11 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
     public void restartBBDD(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query1 = "DELETE * FROM ARTICULOS";
+        String query1 = "DELETE FROM ARTICULOS";
         db.execSQL(query1);
-        String query2 = "DELETE * FROM USERS";
+        String query2 = "DELETE FROM USERS";
         db.execSQL(query2);
-        String query3 = "DELETE * FROM COMPRA";
+        String query3 = "DELETE FROM COMPRA";
         db.execSQL(query3);
         db.close();
     }
@@ -63,14 +63,14 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
         //Creamos un objeto para agregar las columnas y valores
         ContentValues values = new ContentValues();
-        values.put(CompraDB.COMPRA.DESCRIPCION, articulo.getDescripcion());
-        values.put(CompraDB.COMPRA.CODIGO, articulo.getCodigo());
-        values.put(CompraDB.COMPRA.CANTIDAD, articulo.getCantidad());
-        values.put(CompraDB.COMPRA.SEXO, articulo.getSexo());
-        values.put(CompraDB.COMPRA.PRECIO, articulo.getPrecio());
+        values.put(CompraDB.TABLE.DESCRIPCION, articulo.getDescripcion());
+        values.put(CompraDB.TABLE.CODIGO, articulo.getCodigo());
+        values.put(CompraDB.TABLE.CANTIDAD, articulo.getCantidad());
+        values.put(CompraDB.TABLE.SEXO, articulo.getSexo());
+        values.put(CompraDB.TABLE.PRECIO, articulo.getPrecio());
 
         //Insertamos los datos en la tabla
-        db.insert(CompraDB.COMPRA.TABLE_NAME, null, values);
+        db.insert(CompraDB.TABLE.TABLE_NAME, null, values);
 
         //Cerramos la conexion con la base de datos
         db.close();
@@ -117,15 +117,15 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
         //Creamos un objeto para agregar las columnas y valores
         ContentValues values = new ContentValues();
-        //values.put(ArticulosDB.ARTICULOS.IMAGE, articulo.getBitmap());
-        values.put(ArticulosDB.ARTICULOS.DESCRIPCION, articulo.getDescripcion());
-        values.put(ArticulosDB.ARTICULOS.CODIGO, articulo.getCodigo());
-        values.put(ArticulosDB.ARTICULOS.CANTIDAD, articulo.getCantidad());
-        values.put(ArticulosDB.ARTICULOS.SEXO, articulo.getSexo());
-        values.put(ArticulosDB.ARTICULOS.PRECIO, articulo.getPrecio());
+        //values.put(ArticulosDB.TABLE.IMAGE, articulo.getBitmap());
+        values.put(ArticulosDB.TABLE.DESCRIPCION, articulo.getDescripcion());
+        values.put(ArticulosDB.TABLE.CODIGO, articulo.getCodigo());
+        values.put(ArticulosDB.TABLE.CANTIDAD, articulo.getCantidad());
+        values.put(ArticulosDB.TABLE.SEXO, articulo.getSexo());
+        values.put(ArticulosDB.TABLE.PRECIO, articulo.getPrecio());
 
         //Insertamos los datos en la tabla
-        db.insert(ArticulosDB.ARTICULOS.TABLE_NAME, null, values);
+        db.insert(ArticulosDB.TABLE.TABLE_NAME, null, values);
 
         //Cerramos la conexion con la base de datos
         db.close();
@@ -134,7 +134,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     public void updateCantCarrito(Articulo articulo, int cant){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "UPDATE'" + CompraDB.COMPRA.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
+        String query = "UPDATE'" + CompraDB.TABLE.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
         db.execSQL(query);
 
         db.close();
@@ -143,7 +143,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
     public void updateCantArticulo(Articulo articulo, int cant){
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "UPDATE'" + ArticulosDB.ARTICULOS.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
+        String query = "UPDATE'" + ArticulosDB.TABLE.TABLE_NAME + "' SET cantidad = '" + cant + "' WHERE codigo = '" + articulo.getCodigo() + "'";
         db.execSQL(query);
 
         db.close();
@@ -154,7 +154,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
 
         for (Articulo carrito : listaCompra){
-            db.execSQL("DELETE FROM '" + CompraDB.COMPRA.TABLE_NAME + "' WHERE codigo = '" + carrito.getCodigo() + "'");
+            db.execSQL("DELETE FROM '" + CompraDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + carrito.getCodigo() + "'");
         }
         //Cerramos la conexion con la base de datos
         db.close();
@@ -165,7 +165,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
 
         for(Articulo a : articulos){
-            db.execSQL("DELETE FROM '" + CompraDB.COMPRA.TABLE_NAME + "' WHERE codigo = '" + a.getCodigo() + "'");
+            db.execSQL("DELETE FROM '" + CompraDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + a.getCodigo() + "'");
         }
         //Cerramos la conexion con la base de datos
         db.close();
@@ -175,7 +175,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.execSQL("DELETE FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "' WHERE codigo = '" + articulo.getCodigo() + "'");
+        db.execSQL("DELETE FROM '" + ArticulosDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + articulo.getCodigo() + "'");
 
         //Cerramos la conexion con la base de datos
         db.close();
@@ -185,7 +185,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //obtenemos permisos de escritura
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "DELETE FROM '" + CompraDB.COMPRA.TABLE_NAME + "' WHERE codigo = '" + articulo.getCodigo() + "'";
+        String query = "DELETE FROM '" + CompraDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + articulo.getCodigo() + "'";
         db.execSQL(query);
 
         //Cerramos la conexion con la base de datos
@@ -196,7 +196,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Creamos una Array para llenarlo con los articulos que tengamos en la BD
         List articulos = new ArrayList();
         //Metemos en un String la query que queremos ejecutar
-        String query = "SELECT * FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "' WHERE codigo LIKE '%" + codigo + "%'";
+        String query = "SELECT * FROM '" + ArticulosDB.TABLE.TABLE_NAME + "' WHERE codigo LIKE '%" + codigo + "%'";
         //Obtenemos permisos de escritura y ejecutamos la query
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -227,7 +227,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Creamos una Array para llenarlo con los articulos que tengamos en la BD
         List articulos = new ArrayList();
         //Metemos en un String la query que queremos ejecutar
-        String query = "SELECT * FROM '" + ArticulosDB.ARTICULOS.TABLE_NAME + "'";
+        String query = "SELECT * FROM '" + ArticulosDB.TABLE.TABLE_NAME + "'";
         //Obtenemos permisos de escritura y ejecutamos la query
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -257,7 +257,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         //Creamos una Array para llenarlo con los articulos que tengamos en la BD
         List articulos = new ArrayList();
         //Metemos en un String la query que queremos ejecutar
-        String query = "SELECT * FROM '" + CompraDB.COMPRA.TABLE_NAME + "'";
+        String query = "SELECT * FROM '" + CompraDB.TABLE.TABLE_NAME + "'";
         //Obtenemos permisos de escritura y ejecutamos la query
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);

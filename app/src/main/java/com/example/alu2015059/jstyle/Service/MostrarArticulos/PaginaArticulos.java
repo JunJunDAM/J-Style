@@ -1,7 +1,6 @@
 package com.example.alu2015059.jstyle.Service.MostrarArticulos;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,18 +14,19 @@ import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
-import com.example.alu2015059.jstyle.Repository.ArticulosBBDD;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.RepositoryTesting.ArticulosBBDD;
 import com.example.alu2015059.jstyle.Service.AnadirArticulo.AnadirArticulo;
 import com.example.alu2015059.jstyle.Service.Compra.Carrito;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by alu2015059 on 23/01/2018.
  */
 
-public class PaginaArticulos extends AppCompatActivity{
+public class PaginaArticulos extends AppCompatActivity {
     private EditText code;
     private SwipeRefreshLayout srl_Articulos;
     private RecyclerView rv_Articulos;
@@ -88,7 +88,7 @@ public class PaginaArticulos extends AppCompatActivity{
         srl_Articulos.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateArticulos(false);
+                updateArticulos(true);
                 Toast.makeText(PaginaArticulos.this, "Refrescando lista de Articulos",Toast.LENGTH_SHORT).show();
             }
         });
@@ -96,8 +96,15 @@ public class PaginaArticulos extends AppCompatActivity{
         btn_comprar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PaginaArticulos.this, Carrito.class);
-                startActivity(intent);
+                SQLiteDBHelper sqLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
+                List<Articulo> listaArticulos = new ArrayList<>();
+                listaArticulos = sqLiteDBHelper.getCarrito();
+                if(listaArticulos.isEmpty()){
+                    Toast.makeText(PaginaArticulos.this, "No hay articulos en la cesta",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent intent = new Intent(PaginaArticulos.this, Carrito.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -106,12 +113,20 @@ public class PaginaArticulos extends AppCompatActivity{
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(PaginaArticulos.this);
 
         if(!empty){
+            try {
+                ArticulosBBDD.read(getContentResolver(), codigo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             update(SQLiteDBHelper.getArticuloByCodigo(codigo));
-            //ArticulosBBDD.getArticuloById(getContentResolver(), codigo);
         }
         else {
+            try {
+                update(ArticulosBBDD.getAllArticulos(getContentResolver()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             update(SQLiteDBHelper.getAllArticulos());
-            //ArticulosBBDD.getAllArticulos(getContentResolver());
         }
     }
 

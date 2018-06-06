@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
  */
 
 public class CompraDB {
-    public static class COMPRA {
+    public static class TABLE {
         public static final String TABLE_NAME = "COMPRA";
         public static final String DESCRIPCION = "descripcion";
         public static final String CODIGO = "codigo";
@@ -18,25 +18,25 @@ public class CompraDB {
     }
 
     public static final String COMPRA_CREATE_TABLE =
-            "CREATE TABLE " + CompraDB.COMPRA.TABLE_NAME + " (" +
-                    CompraDB.COMPRA.DESCRIPCION + " TEXT, " +
-                    CompraDB.COMPRA.CODIGO + " TEXT, " +
-                    CompraDB.COMPRA.CANTIDAD + " INTEGER, " +
-                    CompraDB.COMPRA.SEXO + " TEXT, " +
-                    CompraDB.COMPRA.PRECIO + " DOUBLE);";
+            "CREATE TABLE " + TABLE.TABLE_NAME + " (" +
+                    TABLE.DESCRIPCION + " TEXT, " +
+                    TABLE.CODIGO + " TEXT, " +
+                    TABLE.CANTIDAD + " INTEGER, " +
+                    TABLE.SEXO + " TEXT, " +
+                    TABLE.PRECIO + " DOUBLE);";
 
     public static final String COMPRA_CREATETABLE_IFNOTEXISTS =
-            "CREATE TABLE IF NOT EXISTS " + COMPRA.TABLE_NAME  + " (" +
-                    CompraDB.COMPRA.DESCRIPCION + " TEXT, " +
-                    CompraDB.COMPRA.CODIGO + " TEXT, " +
-                    CompraDB.COMPRA.CANTIDAD + " INTEGER, " +
-                    CompraDB.COMPRA.SEXO + " TEXT, " +
-                    CompraDB.COMPRA.PRECIO + " DOUBLE);";
+            "CREATE TABLE IF NOT EXISTS " + TABLE.TABLE_NAME  + " (" +
+                    TABLE.DESCRIPCION + " TEXT, " +
+                    TABLE.CODIGO + " TEXT, " +
+                    TABLE.CANTIDAD + " INTEGER, " +
+                    TABLE.SEXO + " TEXT, " +
+                    TABLE.PRECIO + " DOUBLE);";
 
-    public static final String COMPRA_DROPTABLE = "DROP TABLE IF EXISTS " + CompraDB.COMPRA.TABLE_NAME;
+    public static final String COMPRA_DROPTABLE = "DROP TABLE IF EXISTS " + TABLE.TABLE_NAME;
 
     public static class CARRITO implements BaseColumns {
-        public static final Uri CONTENT_URI = Uri.parse("content://" + Database.AUTHORITY + "/COMPRA");
+        public static final Uri CONTENT_URI = Uri.parse("content://" + Database.AUTHORITY + "/TABLE");
         public static final String DESCRIPCION = "descripcion";
         public static final String CODIGO = "codigo";
         public static final String CANTIDAD = "cantidad";

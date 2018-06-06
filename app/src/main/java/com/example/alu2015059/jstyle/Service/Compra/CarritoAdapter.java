@@ -1,9 +1,7 @@
 package com.example.alu2015059.jstyle.Service.Compra;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +14,6 @@ import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
-import com.example.alu2015059.jstyle.Repository.CompraBBDD;
-import com.example.alu2015059.jstyle.Repository.CompraDB;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
 import java.util.ArrayList;
@@ -87,14 +83,27 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
                 String cantS = new_cantidad.getText().toString();
                 int cant = Integer.parseInt(cantS);
+                List<Articulo> lista = new ArrayList<>();
+                lista = SQLiteDBHelper.getAllArticulos();
 
-                if(cant < 0){
-                    new_cantidad.setText("1");
+                if(cant <= 0){
+                    Toast.makeText(activity, "Introducir un numero mayor a 0",Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
-                SQLiteDBHelper.updateCantCarrito(listaArticulos.get(position), cant);
-
-                Toast.makeText(activity, "Cantidad de " + listaArticulos.get(position).getDescripcion() + " : " + listaArticulos.get(position).getCantidad(),Toast.LENGTH_SHORT).show();
+                for(Articulo articulo : lista){
+                    if(articulo.getCodigo().equals(listaArticulos.get(position).getCodigo())){
+                        int stock = articulo.getCantidad() - cant;
+                        if(stock < 0){
+                            Toast.makeText(activity, "Cantidad de " + articulo.getDescripcion() + " : " + articulo.getCantidad(),Toast.LENGTH_SHORT).show();
+                            new_cantidad.setText(articulo.getCantidad().toString());
+                            return;
+                        }else {
+                            SQLiteDBHelper.updateCantCarrito(listaArticulos.get(position), cant);
+                            Toast.makeText(activity, "Carrito actualizado",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
             }
         });
 

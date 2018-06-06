@@ -11,15 +11,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.alu2015059.jstyle.Service.MostrarArticulos.PaginaArticulos;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.Service.MostrarArticulos.PaginaArticulos;
 
 /**
  * Created by alu2015059 on 24/04/2018.
  */
 
-public class Login extends AppCompatActivity{
+public class Login extends AppCompatActivity {
 
     EditText username;
     EditText password;

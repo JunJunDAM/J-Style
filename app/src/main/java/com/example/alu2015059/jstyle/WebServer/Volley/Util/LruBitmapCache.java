@@ -3,11 +3,13 @@ package com.example.alu2015059.jstyle.WebServer.Volley.Util;
 import android.graphics.Bitmap;
 import android.util.LruCache;
 
+import com.android.volley.toolbox.ImageLoader;
+
 /**
  * Created by alu2015059 on 31/05/2018.
  */
-/*
-public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCache{
+
+public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageLoader.ImageCache{
     public static int getDefaultLruCacheSize(){
         final int max_Memory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         final int cache_size = max_Memory / 8;
@@ -31,4 +33,3 @@ public class LruBitmapCache extends LruCache<String, Bitmap> implements ImageCac
     @Override
     public void putBitmap(String url, Bitmap bitmap){put(url, bitmap);}
 }
-*/

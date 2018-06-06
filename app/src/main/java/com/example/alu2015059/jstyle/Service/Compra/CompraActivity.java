@@ -1,7 +1,6 @@
 package com.example.alu2015059.jstyle.Service.Compra;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,8 +12,8 @@ import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.MainActivity;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.RepositoryTesting.ArticulosBBDD;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,6 +69,11 @@ public class CompraActivity extends AppCompatActivity {
                         if(articulo.getCodigo().equals(carrito.getCodigo())){
                             cantidadArticulos = articulo.getCantidad() - carrito.getCantidad();
                             SQLiteDBHelper.updateCantArticulo(articulo, cantidadArticulos);
+                            try {
+                                ArticulosBBDD.update(getContentResolver(), articulo);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

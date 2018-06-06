@@ -11,7 +11,7 @@ import android.os.Bundle;
  * Created by alu2015059 on 31/05/2018.
  */
 
-public class Authenticator extends AbstractAccountAuthenticator{
+public class  Authenticator extends AbstractAccountAuthenticator{
 
     public Authenticator(Context context){super(context);}
 

@@ -1,4 +1,4 @@
-package com.example.alu2015059.jstyle.Repository;
+package com.example.alu2015059.jstyle.RepositoryTesting;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -11,12 +11,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import java.net.URI;
+import com.example.alu2015059.jstyle.Repository.ArticulosDB;
+import com.example.alu2015059.jstyle.Repository.CompraDB;
+import com.example.alu2015059.jstyle.Repository.Database;
 
 /**
  * Created by alu2015059 on 01/06/2018.
@@ -42,39 +42,39 @@ public class StockNowBBDD extends ContentProvider{
 
         URI_MATCHER.addURI(
                 Database.AUTHORITY,
-                ArticulosDB.ARTICULOS.TABLE_NAME,
+                ArticulosDB.TABLE.TABLE_NAME,
                 ALL_ARTICULOS);
 
         URI_MATCHER.addURI(
                 Database.AUTHORITY,
-                ArticulosDB.ARTICULOS.TABLE_NAME + "/#",
+                ArticulosDB.TABLE.TABLE_NAME + "/#",
                 ARTICULO);
 
         URI_MATCHER.addURI(
                 Database.AUTHORITY,
-                CompraDB.COMPRA.TABLE_NAME,
+                CompraDB.TABLE.TABLE_NAME,
                 CARRITO);
 
         URI_MATCHER.addURI(
                 Database.AUTHORITY,
-                CompraDB.COMPRA.TABLE_NAME + "/#",
+                CompraDB.TABLE.TABLE_NAME + "/#",
                 COMPRA);
 
         MIME_TYPES.put(
                 ALL_ARTICULOS, "vnd.android.cursor.dir/vnd." +
-                        Database.AUTHORITY + "." + ArticulosDB.ARTICULOS.TABLE_NAME);
+                        Database.AUTHORITY + "." + ArticulosDB.TABLE.TABLE_NAME);
 
         MIME_TYPES.put(
                 ARTICULO, "vnd.android.cursor.item/vnd." +
-                        Database.AUTHORITY + "." + ArticulosDB.ARTICULOS.TABLE_NAME);
+                        Database.AUTHORITY + "." + ArticulosDB.TABLE.TABLE_NAME);
 
         MIME_TYPES.put(
                 CARRITO, "vnd.android.cursor.dir/vnd." +
-                        Database.AUTHORITY + "." + CompraDB.COMPRA.TABLE_NAME);
+                        Database.AUTHORITY + "." + CompraDB.TABLE.TABLE_NAME);
 
         MIME_TYPES.put(
                 COMPRA, "vnd.android.cursor.item/vnd." +
-                        Database.AUTHORITY + "." + CompraDB.COMPRA.TABLE_NAME);
+                        Database.AUTHORITY + "." + CompraDB.TABLE.TABLE_NAME);
     }
 
     public static class DBHelper extends SQLiteOpenHelper{
@@ -129,20 +129,20 @@ public class StockNowBBDD extends ContentProvider{
             case ARTICULO:
                 if(null == selecion) selecion = "";
                 selecion += ArticulosDB.ARTICULO.CODIGO + " = " + uri.getLastPathSegment();
-                queryBuilder.setTables(ArticulosDB.ARTICULOS.TABLE_NAME);
+                queryBuilder.setTables(ArticulosDB.TABLE.TABLE_NAME);
                 break;
             case ALL_ARTICULOS:
                 if(TextUtils.isEmpty(order)) order = ArticulosDB.ARTICULO.CODIGO + " ASC";
-                queryBuilder.setTables(ArticulosDB.ARTICULOS.TABLE_NAME);
+                queryBuilder.setTables(ArticulosDB.TABLE.TABLE_NAME);
                 break;
             case COMPRA:
                 if(null == selecion) selecion = "";
                 selecion += CompraDB.CARRITO.CODIGO + " = " + uri.getLastPathSegment();
-                queryBuilder.setTables(CompraDB.COMPRA.TABLE_NAME);
+                queryBuilder.setTables(CompraDB.TABLE.TABLE_NAME);
                 break;
             case CARRITO:
                 if(TextUtils.isEmpty(order)) order = CompraDB.CARRITO.CODIGO + " ASC";
-                queryBuilder.setTables(CompraDB.COMPRA.TABLE_NAME);
+                queryBuilder.setTables(CompraDB.TABLE.TABLE_NAME);
                 break;
         }
 
@@ -163,10 +163,10 @@ public class StockNowBBDD extends ContentProvider{
 
         switch (URI_MATCHER.match(uri)){
             case ALL_ARTICULOS:
-                table = ArticulosDB.ARTICULOS.TABLE_NAME;
+                table = ArticulosDB.TABLE.TABLE_NAME;
                 break;
             case CARRITO:
-                table = CompraDB.COMPRA.TABLE_NAME;
+                table = CompraDB.TABLE.TABLE_NAME;
                 break;
         }
 
@@ -174,7 +174,7 @@ public class StockNowBBDD extends ContentProvider{
 
         if(rowID > 0){
             Uri rowURI = ContentUris.appendId(uri.buildUpon(), rowID).build();
-            if (table != ArticulosDB.ARTICULOS.TABLE_NAME) getContext().getContentResolver().notifyChange(rowURI, null);
+            if (table != ArticulosDB.TABLE.TABLE_NAME) getContext().getContentResolver().notifyChange(rowURI, null);
             return rowURI;
         }throw new SQLException("Failed to insert row into " + uri);
     }
@@ -188,23 +188,23 @@ public class StockNowBBDD extends ContentProvider{
            case ARTICULO:
                if(null == s) s = "";
                s += ArticulosDB.ARTICULO.CODIGO + " = " + uri.getLastPathSegment();
-               table = ArticulosDB.ARTICULOS.TABLE_NAME;
+               table = ArticulosDB.TABLE.TABLE_NAME;
                break;
            case ALL_ARTICULOS:
-               table = ArticulosDB.ARTICULOS.TABLE_NAME;
+               table = ArticulosDB.TABLE.TABLE_NAME;
                break;
            case COMPRA:
                if(null == s) s = "";
                s += CompraDB.CARRITO.CODIGO + " = " + uri.getLastPathSegment();
-               table = CompraDB.COMPRA.TABLE_NAME;
+               table = CompraDB.TABLE.TABLE_NAME;
                break;
            case CARRITO:
-               table = CompraDB.COMPRA.TABLE_NAME;
+               table = CompraDB.TABLE.TABLE_NAME;
                break;
        }
        int rows = sqLiteDatabase.delete(table, s, strings);
        if(rows > 0){
-           if(table != ArticulosDB.ARTICULOS.TABLE_NAME) getContext().getContentResolver().notifyChange(uri, null);
+           if(table != ArticulosDB.TABLE.TABLE_NAME) getContext().getContentResolver().notifyChange(uri, null);
            return rows;
        }throw new SQLException("Failed to delete row into " + uri);
     }
@@ -218,24 +218,24 @@ public class StockNowBBDD extends ContentProvider{
             case ARTICULO:
                 if(null == s) s = "";
                 s += ArticulosDB.ARTICULO.CODIGO + " = " + uri.getLastPathSegment();
-                table = ArticulosDB.ARTICULOS.TABLE_NAME;
+                table = ArticulosDB.TABLE.TABLE_NAME;
                 break;
             case ALL_ARTICULOS:
-                table = ArticulosDB.ARTICULOS.TABLE_NAME;
+                table = ArticulosDB.TABLE.TABLE_NAME;
                 break;
             case COMPRA:
                 if(null == s) s = "";
                 s += CompraDB.CARRITO.CODIGO + " = " + uri.getLastPathSegment();
-                table = CompraDB.COMPRA.TABLE_NAME;
+                table = CompraDB.TABLE.TABLE_NAME;
                 break;
             case CARRITO:
-                table = CompraDB.COMPRA.TABLE_NAME;
+                table = CompraDB.TABLE.TABLE_NAME;
                 break;
         }
 
         int rows = sqLiteDatabase.update(table, contentValues, s, strings);
         if(rows > 0){
-            if(table != ArticulosDB.ARTICULOS.TABLE_NAME) getContext().getContentResolver().notifyChange(uri, null);
+            if(table != ArticulosDB.TABLE.TABLE_NAME) getContext().getContentResolver().notifyChange(uri, null);
             return rows;
         }throw new SQLException("Failed to update Row into " + uri);
     }

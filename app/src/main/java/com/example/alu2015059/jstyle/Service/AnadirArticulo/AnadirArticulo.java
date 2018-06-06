@@ -1,13 +1,11 @@
 package com.example.alu2015059.jstyle.Service.AnadirArticulo;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.Picture;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,14 +15,16 @@ import android.widget.Toast;
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.RepositoryTesting.ArticulosBBDD;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by alu2015059 on 05/02/2018.
  */
 
-public class AnadirArticulo extends AppCompatActivity{
+public class AnadirArticulo extends AppCompatActivity {
 
     private static int TAKE_PICTURE = 1;
 
@@ -63,20 +63,76 @@ public class AnadirArticulo extends AppCompatActivity{
                 //Cojo los valores de los articulos
                 ImageView imagen = image;
                 String description = descripcion.getText().toString();
+                if(TextUtils.isEmpty(description)){
+                    descripcion.setError("Campo requerido");
+                    descripcion.requestFocus();
+                    return;
+                }
                 String code = codigo.getText().toString();
-                int cantity = Integer.valueOf(String.valueOf(cantidad.getText()));
+                if(TextUtils.isEmpty(code)){
+                    codigo.setError("Campo requerido");
+                    codigo.requestFocus();
+                    return;
+                }
+                String cantity = cantidad.getText().toString();
+                if (String.valueOf(cantity).equals("")){
+                    cantidad.setError("Campo requerido");
+                    cantidad.requestFocus();
+                    return;
+                }
                 String sex = sexo .getText().toString();
-                double price = Double.valueOf(String.valueOf(precio.getText()));
+                if (TextUtils.isEmpty(sex)){
+                    sexo.setError("Campo requerido");
+                    sexo.requestFocus();
+                    return;
+                }
+                String price = precio.getText().toString();
+                if (String.valueOf(price).equals("")){
+                    precio.setError("Campo requerido");
+                    precio.requestFocus();
+                    return;
+                }
 
-                //Creo el articulo
-                Articulo articulo = new Articulo(description, code, cantity, sex, price);
-                //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
-                SQLiteDBHelper.insertArticulo(articulo);
+                int cantidad = Integer.valueOf(cantity);
+                double precio = Double.valueOf(price);
 
-                Toast.makeText(AnadirArticulo.this, "ARTICULO creado correctamente",Toast.LENGTH_SHORT).show();
+                List<Articulo> listaArticulos = new ArrayList<>();
+                boolean error = false;
 
-                //Despues de que el boton haga su funcionalidad, hago que vuelva a la pagina de los articulos, finalizando esta
-                AnadirArticulo.this.finish();
+                try {
+                    //listaArticulos = ArticulosBBDD.getAllArticulos(getContentResolver());
+                    listaArticulos = SQLiteDBHelper.getAllArticulos();
+                    for (Articulo a : listaArticulos){
+                        if(a.getCodigo().equalsIgnoreCase(code)){
+                            codigo.setError("!");
+                            codigo.requestFocus();
+                            error = true;
+                            Toast.makeText(AnadirArticulo.this, "Codigo actualmente en uso",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                if(error == false) {
+                    try {
+                        //Creo el articulo
+                        Articulo articulo = new Articulo(description, code, cantidad, sex, precio);
+
+                        //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
+                        SQLiteDBHelper.insertArticulo(articulo);
+
+                        //ArticulosBBDD.insertArticulo(getContentResolver(), articulo);
+                        Toast.makeText(AnadirArticulo.this, "ARTICULO creado correctamente",Toast.LENGTH_SHORT).show();
+
+                        //Despues de que el boton haga su funcionalidad, htesago que vuelva a la pagina de los articulos, finalizando esta
+                        AnadirArticulo.this.finish();
+                        return;
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 

@@ -1,20 +1,28 @@
 package com.example.alu2015059.jstyle.Service.MostrarArticulos;
 
-import android.database.sqlite.SQLiteDatabase;
+import android.app.LoaderManager;
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
 import com.example.alu2015059.jstyle.R;
-import com.example.alu2015059.jstyle.Repository.CompraDB;
+import com.example.alu2015059.jstyle.Repository.Database;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
+import com.example.alu2015059.jstyle.RepositoryTesting.ArticulosBBDD;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,15 +31,43 @@ import java.util.List;
  * Created by alu2015059 on 23/05/2018.
  */
 
-public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.ViewHolder>{
+public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.ViewHolder> implements LoaderManager.LoaderCallbacks<Cursor>{
 
     List<Articulo> listaArticulos = new ArrayList<>();
     AppCompatActivity activity;
+
+    ArticuloCursorAdapter mAdapter;
 
     public ArticulosAdapter(List<Articulo> listaArticulos, AppCompatActivity activity){
         super();
         this.listaArticulos = listaArticulos;
         this.activity = activity;
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String columnas[] = new String[]{
+                Database.ARTICULO.DESCRIPCION,
+                Database.ARTICULO.CODIGO,
+                Database.ARTICULO.CANTIDAD,
+                Database.ARTICULO.SEXO,
+                Database.ARTICULO.PRECIO
+        };
+        Uri baseuri = Database.ARTICULO.CONTENT_URI;
+        String selection = null;
+        return new CursorLoader(activity, baseuri, columnas, selection, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Uri uriBase = Uri.parse("content://"+ Database.AUTHORITY+"/ARTICULOS");
+        data.setNotificationUri(activity.getContentResolver(), uriBase);
+        mAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mAdapter.swapCursor(null);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -54,6 +90,37 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
     public ArticulosAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.articulo_item, parent, false);
         return new ViewHolder(view);
+    }
+
+    public class ArticuloCursorAdapter extends CursorAdapter{
+
+        public ArticuloCursorAdapter(Context context){super(context, null, false);}
+
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            View view = inflater.inflate(R.layout.articulo_item, parent, false);
+            bindView(view, context, cursor);
+            return view;
+        }
+
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            String descripcion = cursor.getString(cursor.getColumnIndex(Database.ARTICULO.DESCRIPCION));
+            Double precio = cursor.getDouble(cursor.getColumnIndex(Database.ARTICULO.PRECIO));
+            String codigo = cursor.getString(cursor.getColumnIndex(Database.ARTICULO.CODIGO));
+            int cantidad = cursor.getInt(cursor.getColumnIndex(Database.ARTICULO.CANTIDAD));
+
+            TextView tv_descripcion = view.findViewById(R.id.ci_ArticuloName);
+            tv_descripcion.setText(descripcion);
+            TextView tv_precio = view.findViewById(R.id.ai_ArticuloPrice);
+            tv_precio.setText(String.valueOf(precio));
+            TextView tv_codigo = view.findViewById(R.id.ci_ArticuloCode);
+            tv_codigo.setText(codigo);
+            TextView tv_cantidad = view.findViewById(R.id.ai_ArticuloCantidad);
+            tv_cantidad.setText(String.valueOf(cantidad));
+            view.setTag(codigo);
+        }
     }
 
     @Override
@@ -81,6 +148,11 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
 
             SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
             SQLiteDBHelper.deleteArticulo(listaArticulos.get(position));
+            try {
+                ArticulosBBDD.delete(activity.getContentResolver(), listaArticulos.get(position).getCodigo());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }else {
             holder.articulo_cantidad.setText(String.valueOf(cantidad));

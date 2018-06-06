@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Created by alu2015059 on 23/01/2018.
  */
 
-public class MarcadorMapa extends AppCompatActivity implements OnMapReadyCallback{
+public class MarcadorMapa extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         LatLng ubicacion = new LatLng(41.385524, 2.162439);
