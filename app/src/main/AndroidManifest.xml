@@ -3,6 +3,7 @@
     package="com.example.alu2015059.jstyle">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.camera2" android:required="true"/>
 
     <uses-permission
