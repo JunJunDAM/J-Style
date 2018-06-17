@@ -2,6 +2,7 @@ package com.example.alu2015059.jstyle.Service.AnadirArticulo;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -60,8 +61,11 @@ public class AnadirArticulo extends AppCompatActivity {
                 //Abrimos base de datos con permisos de escritura
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(AnadirArticulo.this);
 
-                //Cojo los valores de los articulos
                 ImageView imagen = image;
+                BitmapDrawable drawable = (BitmapDrawable) imagen.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+
+                //Cojo los valores de los articulos
                 String description = descripcion.getText().toString();
                 if(TextUtils.isEmpty(description)){
                     descripcion.setError("Campo requerido");
@@ -120,6 +124,7 @@ public class AnadirArticulo extends AppCompatActivity {
                         //Creo el articulo
                         Articulo articulo = new Articulo(description, code, cantidad, sex, precio);
 
+                        SQLiteDBHelper.insertImagen(code, bitmap);
                         //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
                         SQLiteDBHelper.insertArticulo(articulo);
 

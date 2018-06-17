@@ -5,10 +5,16 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.Domain.Imagen;
 import com.example.alu2015059.jstyle.Domain.User;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +34,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(ArticulosDB.ARTICULOS_CREATE_TABLE);
         sqLiteDatabase.execSQL(LoginDB.USERS_CREATE_TABLE);
         sqLiteDatabase.execSQL(CompraDB.COMPRA_CREATE_TABLE);
+        sqLiteDatabase.execSQL(ImagenDB.IMAGEN_CREATE_TABLE);
     }
 
     @Override
@@ -35,6 +42,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         sqLiteDatabase.execSQL(ArticulosDB.ARTICULOS_DROPTABLE);
         sqLiteDatabase.execSQL(LoginDB.USERS_DROPTABLE);
         sqLiteDatabase.execSQL(CompraDB.COMPRA_DROPTABLE);
+        sqLiteDatabase.execSQL(ImagenDB.IMAGEN_DROPTABLE);
         //Llamamos al metodo onCreate para que se cree de nuevo la tabla
         this.onCreate(sqLiteDatabase);
     }
@@ -43,6 +51,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(CompraDB.COMPRA_CREATETABLE_IFNOTEXISTS);
         db.execSQL(ArticulosDB.ARTICULOS_CREATETABLE_IFNOTEXISTS);
+        db.execSQL(ImagenDB.IMAGEN_CREATETABLE_IFNOTEXISTS);
     }
     // CRUD
 
@@ -63,6 +72,80 @@ public class SQLiteDBHelper extends SQLiteOpenHelper{
 
         //Cerramos la conexion con la base de datos
         db.close();
+    }
+
+    public void insertImagen(String codigo, Bitmap bitmap){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(20480);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
+        byte[] blob = baos.toByteArray();
+
+        //Insertamos los datos en la tabla
+        String query = "INSERT INTO '" + ImagenDB.TABLE.TABLE_NAME + "' (codigo, bitmap) VALUES(?,?)";
+        SQLiteStatement insert = db.compileStatement(query);
+        insert.clearBindings();
+        insert.bindString(1, codigo);
+        insert.bindBlob(2, blob);
+        insert.executeInsert();
+
+        //Cerramos la conexion con la base de datos
+        db.close();
+    }
+
+    public Bitmap getImagen(String codigo){
+        //obtenemos permisos de escritura
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //db.execSQL("SELECT FROM '" + ImagenDB.TABLE.TABLE_NAME + "' WHERE codigo = '" + codigo + "'");
+        //Insertamos los datos en la tabla
+        String query = String.format("SELECT * FROM '" + ImagenDB.TABLE.TABLE_NAME + "' WHERE codigo = %d", codigo);
+        Cursor cursor = db.rawQuery(query, new String[]{});
+        Bitmap bitmap = null;
+        if(cursor.moveToFirst()){
+            byte[] blob = cursor.getBlob(1);
+            ByteArrayInputStream bais = new ByteArrayInputStream(blob);
+            bitmap = BitmapFactory.decodeStream(bais);
+        }
+        if(cursor != null && !cursor.isClosed()){
+            cursor.close();
+        }
+
+        //Cerramos la conexion con la base de datos
+        db.close();
+        return bitmap;
+    }
+
+    public List<Imagen> getAllImagenes(){
+        //Creamos una Array para llenarlo con los articulos que tengamos en la BD
+        List imagenes = new ArrayList();
+        //Metemos en un String la query que queremos ejecutar
+        String query = "SELECT * FROM '" + ImagenDB.TABLE.TABLE_NAME + "'";
+        //Obtenemos permisos de escritura y ejecutamos la query
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        //Revisamos lso registros y agregamos al array
+        Imagen imagen = null;
+        if(cursor.moveToFirst()){
+            do{
+                imagen = new Imagen();
+                imagen.setCodigo(cursor.getString(0));
+                byte [] blob = cursor.getBlob(1);
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(blob);
+                Bitmap bitmap = BitmapFactory.decodeStream(byteArrayInputStream);
+                imagen.setBitmap(bitmap);
+
+                // Añadimos los articulos a la lista de articulos
+                imagenes.add(imagen);
+            }while (cursor.moveToNext());
+        }
+
+        //Cerramos el cursor
+        cursor.close();
+        db.close();
+        //Devolvemos los articulos encontrados
+        return imagenes;
     }
 
     public void insertUser(User user){

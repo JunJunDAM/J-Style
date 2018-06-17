@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.Domain.Imagen;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.Database;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
@@ -125,8 +127,19 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-
+        SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
         if(listaArticulos == null) return;
+
+        Bitmap imagen = null;
+
+        List<Imagen> listaImagenes = new ArrayList<>();
+        listaImagenes = SQLiteDBHelper.getAllImagenes();
+        for (Imagen i : listaImagenes){
+            if(listaArticulos.get(position).getCodigo().equalsIgnoreCase(i.getCodigo())){
+                imagen = i.getBitmap();
+            }
+        }
+
 
         String descripcion = listaArticulos.get(position).getDescripcion();
         Double precio = listaArticulos.get(position).getPrecio();
@@ -138,6 +151,7 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             holder.articulo_name.setText(descripcion);
             holder.articulo_price.setText(String.valueOf(precio));
             holder.articulo_code.setText(codigo);
+            holder.articulo_Image.setImageBitmap(imagen);
 
             holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,7 +160,6 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
                 }
             });
 
-            SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
             SQLiteDBHelper.deleteArticulo(listaArticulos.get(position));
             try {
                 ArticulosBBDD.delete(activity.getContentResolver(), listaArticulos.get(position).getCodigo());
@@ -159,6 +172,7 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             holder.articulo_name.setText(descripcion);
             holder.articulo_price.setText(String.valueOf(precio));
             holder.articulo_code.setText(codigo);
+            holder.articulo_Image.setImageBitmap(imagen);
 
             holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
                 @Override
