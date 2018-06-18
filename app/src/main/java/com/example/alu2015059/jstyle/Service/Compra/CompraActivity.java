@@ -106,7 +106,7 @@ public class CompraActivity extends AppCompatActivity {
             cantidad += a.getCantidad();
         }
 
-        double total = Math.round(precio + (precio * iva / 100))* 100 / 100;
+        double total = Math.round(precio * cantidad + (precio * iva / 100))* 100 / 100;
 
         tv_articulos.setText(String.valueOf(cantidad));
         tv_precio.setText(String.valueOf(precio));

@@ -38,7 +38,9 @@ public class AnadirArticulo extends AppCompatActivity {
     private EditText cantidad;
     private EditText sexo;
     private EditText precio;
-    int code = TAKE_PICTURE;
+    private Bitmap bitmap = null;
+    private int code = TAKE_PICTURE;
+    private boolean IMAGED = false;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +63,11 @@ public class AnadirArticulo extends AppCompatActivity {
                 //Abrimos base de datos con permisos de escritura
                 SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(AnadirArticulo.this);
 
-                ImageView imagen = image;
-                BitmapDrawable drawable = (BitmapDrawable) imagen.getDrawable();
-                Bitmap bitmap = drawable.getBitmap();
+                if(IMAGED == true){
+                    ImageView imagen = image;
+                    BitmapDrawable drawable = (BitmapDrawable) imagen.getDrawable();
+                    bitmap = drawable.getBitmap();
+                }
 
                 //Cojo los valores de los articulos
                 String description = descripcion.getText().toString();
@@ -124,7 +128,9 @@ public class AnadirArticulo extends AppCompatActivity {
                         //Creo el articulo
                         Articulo articulo = new Articulo(description, code, cantidad, sex, precio);
 
-                        SQLiteDBHelper.insertImagen(code, bitmap);
+                        if(IMAGED == true){
+                            SQLiteDBHelper.insertImagen(code, bitmap);
+                        }
                         //Cojo el metodo creado en SQLiteDBHelper para guardar el articulo
                         SQLiteDBHelper.insertArticulo(articulo);
 
@@ -179,6 +185,7 @@ public class AnadirArticulo extends AppCompatActivity {
             Bundle bundle = intent.getExtras();
             Bitmap bitmap = (Bitmap) bundle.get("data");
             image.setImageBitmap(bitmap);
+            IMAGED = true;
         }
     }
 }

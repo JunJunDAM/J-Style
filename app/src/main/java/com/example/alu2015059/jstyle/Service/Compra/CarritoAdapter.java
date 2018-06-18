@@ -1,5 +1,6 @@
 package com.example.alu2015059.jstyle.Service.Compra;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.alu2015059.jstyle.Domain.Articulo;
+import com.example.alu2015059.jstyle.Domain.Imagen;
 import com.example.alu2015059.jstyle.R;
 import com.example.alu2015059.jstyle.Repository.SQLiteDBHelper;
 
@@ -63,8 +65,20 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(CarritoAdapter.ViewHolder holder, final int position) {
-
+        final SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
+        boolean HAVE_IMAGE = false;
         if(listaArticulos == null) return;
+
+        Bitmap imagen = null;
+
+        List<Imagen> listaImagenes = new ArrayList<>();
+        listaImagenes = SQLiteDBHelper.getAllImagenes();
+        for (Imagen i : listaImagenes){
+            if(listaArticulos.get(position).getCodigo().equalsIgnoreCase(i.getCodigo())){
+                imagen = i.getBitmap();
+                HAVE_IMAGE = true;
+            }
+        }
 
         String descripcion = listaArticulos.get(position).getDescripcion();
         Double precio = listaArticulos.get(position).getPrecio();
@@ -76,10 +90,15 @@ public class CarritoAdapter extends RecyclerView.Adapter<CarritoAdapter.ViewHold
         holder.articulo_price.setText(String.valueOf(precio));
         holder.articulo_code.setText(codigo);
 
+        if(HAVE_IMAGE == true){
+            holder.articulo_Image.setImageBitmap(imagen);
+        }else {
+
+        }
+
         holder.ibtn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
 
                 String cantS = new_cantidad.getText().toString();
                 int cant = Integer.parseInt(cantS);

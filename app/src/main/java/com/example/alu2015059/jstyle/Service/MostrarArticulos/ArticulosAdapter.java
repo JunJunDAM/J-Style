@@ -128,6 +128,7 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(activity);
+        boolean HAVE_IMAGE = false;
         if(listaArticulos == null) return;
 
         Bitmap imagen = null;
@@ -137,9 +138,11 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
         for (Imagen i : listaImagenes){
             if(listaArticulos.get(position).getCodigo().equalsIgnoreCase(i.getCodigo())){
                 imagen = i.getBitmap();
+                HAVE_IMAGE = true;
+            }else{
+
             }
         }
-
 
         String descripcion = listaArticulos.get(position).getDescripcion();
         Double precio = listaArticulos.get(position).getPrecio();
@@ -151,7 +154,11 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             holder.articulo_name.setText(descripcion);
             holder.articulo_price.setText(String.valueOf(precio));
             holder.articulo_code.setText(codigo);
-            holder.articulo_Image.setImageBitmap(imagen);
+            if(HAVE_IMAGE == true){
+                holder.articulo_Image.setImageBitmap(imagen);
+            }else {
+
+            }
 
             holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -172,7 +179,12 @@ public class ArticulosAdapter extends RecyclerView.Adapter<ArticulosAdapter.View
             holder.articulo_name.setText(descripcion);
             holder.articulo_price.setText(String.valueOf(precio));
             holder.articulo_code.setText(codigo);
-            holder.articulo_Image.setImageBitmap(imagen);
+
+            if(HAVE_IMAGE == true){
+                holder.articulo_Image.setImageBitmap(imagen);
+            }else {
+
+            }
 
             holder.btn_anadirCesta.setOnClickListener(new View.OnClickListener() {
                 @Override
