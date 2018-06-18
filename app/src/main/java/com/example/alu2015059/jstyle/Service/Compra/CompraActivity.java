@@ -95,6 +95,8 @@ public class CompraActivity extends AppCompatActivity {
     public void rellenar(){
         int cantidad = 0;
         double precio = 0;
+        int totalCantidad = 0;
+        double totalPrecio = 0;
         int iva = 21;
 
         SQLiteDBHelper SQLiteDBHelper = new SQLiteDBHelper(CompraActivity.this);
@@ -102,14 +104,16 @@ public class CompraActivity extends AppCompatActivity {
         listaArticulos = SQLiteDBHelper.getCarrito();
 
         for (Articulo a : listaArticulos){
-            precio += a.getPrecio();
-            cantidad += a.getCantidad();
+            precio = a.getPrecio();
+            cantidad = a.getCantidad();
+            totalCantidad += a.getCantidad();
+            totalPrecio += precio * cantidad;
         }
 
-        double total = Math.round(precio * cantidad + (precio * iva / 100))* 100 / 100;
+        double total = Math.round(totalPrecio + (totalPrecio * iva / 100))* 100 / 100;
 
-        tv_articulos.setText(String.valueOf(cantidad));
-        tv_precio.setText(String.valueOf(precio));
+        tv_articulos.setText(String.valueOf(totalCantidad));
+        tv_precio.setText(String.valueOf(totalPrecio));
         tv_total.setText(String.valueOf(total));
     }
 
